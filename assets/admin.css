@@ -1,0 +1,33 @@
+#header {
+    background:aliceblue;
+    color: dimgrey;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color:orange;
+}
+a:link, a:visited {
+    color: dimgrey;
+}
+
+#header a:link, #header a:visited{
+    color:dimgrey;
+}
+.module caption, .inline-group h2 {
+    background: rgb(164, 163, 163);
+}
+div.breadcrumbs {
+    background: rgb(164, 163, 163);
+}
+
+#changelist-filter h2 {
+    background:rgb(164, 163, 163);
+}
+
+input[type="submit"], button {
+    background: orange;
+    color: dimgray;
+}
+input[type=submit].default, .submit-row input.default {
+    background: orangered;
+
+}

@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<span>نقد و بررسی </span>
+				</div>
+				<form class="filters" action="" method="GET">
+					<select name="choice" id="#" placeholder="Choose Category">
+						<option value="">---</option>
+						<option {%if choice == 'iranian' %} selected {% endif %} value="iranian">ایرانی</option>
+						<option {%if choice == 'halliwood' %}  selected {% endif %}  value="halliwood">هالییوود</option>
+						<option {%if choice == 'balliwood' %}  selected {% endif %}  value="balliwood">بالیوود</option>
+						<option {%if choice == 'chaina' %} selected {% endif %}   value="chaina">چینی</option>
+						<option {%if choice == 'arabic' %}  selected {% endif %}  value="arabic">عربی</option>
+						<option {%if choice == 'turkish' %}  selected {% endif %}  value="turkish">ترکی</option>
+					</select>
+					<select name="type" id="#">
+						<option value="">---</option>
+						<option {% if  type == 'serial' %} selected {% endif %} value="serial">سریال</option>
+						<option {% if  type == 'movie' %} selected {% endif %} value="movie">فیلم</option>
+					</select>
+					<input type="text" name="name" {% if name %} value={{name}} {% endif %} placeholder="فیلتر نام...">
+					<input type="submit" name="" id="" value="نقد و بررسی">
+				</form>
+				<div class="movie-list">
+					{% if reviews %}
+					{% for rew in reviews %}
+					<div class="movie">
+						<figure class="movie-poster"><img src="{{ rew.content_object.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
+							<div class="movie-title"><a href="{% url 'movie:singel_review' rew.slug %}">{{ rew.name }}</a></div>
+						<p style="text-align: justify;">{{rew.description|truncatewords:80}}</p>
+					</div>
+					{% endfor %}
+					{% else %}
+						<h3 style="color: tomato;">No file found for you </h3>
+					{% endif %}
+					
+				</div> <!-- .movie-list -->
+					
+				{% if reviews.has_other_pages %}
+				<div class="pagination">
+				  {% if reviews.has_previous %}
+					<a class="page-number" href="?page={{ reviews.previous_page_number }}">&laquo;</a>
+				  {% else %}
+					<li class="page-number"><span>&laquo;</span></li>
+				  {% endif %}
+				  {% for i in reviews.paginator.page_range %}
+					{% if reviews.number == i %}
+					  <a class="page-number current"><span>{{ i }} <span class="sr-only"></span></span></a>
+					
+					{% else %}
+					  <a class="page-number" href="?page={{ i }}">{{ i }}</a>
+					{% endif %}
+				  {% endfor %}
+				  {% if reviews.has_next %}
+					<a class="page-number" href="?page={{ reviews.next_page_number }}">&raquo;</a>
+				  {% else %}
+					<a class="page-number"><span>&raquo;</span></a>
+				  {% endif %}
+				</div>
+				{% endif %}
+
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+
+{%endif%}
+
+
+
+{%if LANGUAGE_CODE == 'en' %}
+
+<main class="main-content">
+	<div class="container">
+		<div class="page">
+			<div class="breadcrumbs" style="direction: ltr;">
+				<a href="{% url 'movie:index' %}">Hoome</a>
+				<span>Review </span>
+			</div>
+			<form class="filters" action="" method="GET" style="direction: ltr;">
+				<select name="choice" id="#" placeholder="Choose Category">
+					<option value="">---</option>
+					<option {%if choice == 'iranian' %} selected {% endif %} value="iranian">iranian</option>
+					<option {%if choice == 'halliwood' %}  selected {% endif %}  value="halliwood">halliwood</option>
+					<option {%if choice == 'balliwood' %}  selected {% endif %}  value="balliwood">balliwood</option>
+					<option {%if choice == 'chaina' %} selected {% endif %}   value="chaina">chaina</option>
+					<option {%if choice == 'arabic' %}  selected {% endif %}  value="arabic">arabic</option>
+					<option {%if choice == 'turkish' %}  selected {% endif %}  value="turkish">turkish</option>
+				</select>
+				<select name="type" id="#">
+					<option value="">---</option>
+					<option {% if  type == 'serial' %} selected {% endif %} value="serial">serial</option>
+					<option {% if  type == 'movie' %} selected {% endif %} value="movie">movie</option>
+				</select>
+				<input type="text" name="name" {% if name %} value={{name}} {% endif %} placeholder="filter name...">
+				<input type="submit" name="" id="" value="review">
+			</form>
+			<div class="movie-list">
+				{% if reviews %}
+				{% for rew in reviews %}
+				<div class="movie" style="direction: ltr;">
+					<figure class="movie-poster"><img src="{{ rew.content_object.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
+						<div class="movie-title"><a href="{% url 'movie:singel_review' rew.slug %}">{{ rew.name }}</a></div>
+					<p style="text-align: justify;">{{rew.description_en|truncatewords:80}}</p>
+				</div>
+				{% endfor %}
+				{% else %}
+					<h3 style="color: tomato;">No file found for you </h3>
+				{% endif %}
+				
+			</div> <!-- .movie-list -->
+				
+			{% if reviews.has_other_pages %}
+			<div class="pagination">
+			  {% if reviews.has_previous %}
+				<a class="page-number" href="?page={{ reviews.previous_page_number }}">&laquo;</a>
+			  {% else %}
+				<li class="page-number"><span>&laquo;</span></li>
+			  {% endif %}
+			  {% for i in reviews.paginator.page_range %}
+				{% if reviews.number == i %}
+				  <a class="page-number current"><span>{{ i }} <span class="sr-only"></span></span></a>
+				
+				{% else %}
+				  <a class="page-number" href="?page={{ i }}">{{ i }}</a>
+				{% endif %}
+			  {% endfor %}
+			  {% if reviews.has_next %}
+				<a class="page-number" href="?page={{ reviews.next_page_number }}">&raquo;</a>
+			  {% else %}
+				<a class="page-number"><span>&raquo;</span></a>
+			  {% endif %}
+			</div>
+			{% endif %}
+
+		</div>
+	</div> <!-- .container -->
+</main>
+</div>
+
+{%endif%}
+{% endblock %}

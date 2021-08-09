@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="slider row">
+							<ul class="slides">
+								<li><a ><img src="{% static 'dummy/film1.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 1"></a></li>
+								<li><a ><img src="{% static 'dummy/film2.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 2"></a></li>
+								<li><a ><img src="{% static 'dummy/film3.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 3"></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="row">
+							{% for video in videosr %}
+							<div class="col-sm-6 col-md-12">
+								<div class="latest-movie">
+									<a href="{% url 'movie:film' video.slug %}"><img src="{{ video.image.url }}" style="width: 250px; height: 250px;" alt="Movie 1"></a>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div> <!-- .row -->
+				<div class="row">
+					{% for video in videosf %}
+					<div class="col-sm-6 col-md-3">
+						<div class="latest-movie">
+							<a href="{% url 'movie:film' video.slug %}"><img style="width: 250px; height: 250px;" src="{{ video.image.url }}" alt="Movie 3"></a>
+						</div>
+					</div>
+					{% endfor %}
+				</div> <!-- .row -->
+				<h2>  سریال جدید</h2>
+				<div class="row">
+					{% for serial in serials %}
+						
+						<div class="col-md-3">
+							<a href="{% url 'movie:serial' serial.slug %}"><img style="width: 250px; height: 250px;" src="{{ serial.image.url }}" alt="Movie 3"></a>
+						</div>
+
+					{% endfor %}
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{% endif %}
+{%if LANGUAGE_CODE == 'en' %}
+
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="row">
+					<div class="col-md-9">
+						<div class="slider row">
+							<ul class="slides">
+								<li><a ><img src="{% static 'dummy/film1.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 1"></a></li>
+								<li><a ><img src="{% static 'dummy/film2.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 2"></a></li>
+								<li><a ><img src="{% static 'dummy/film3.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 3"></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="row">
+							{% for video in videosr %}
+							<div class="col-sm-6 col-md-12">
+								<div class="latest-movie">
+									<a href="{% url 'movie:film' video.slug %}"><img src="{{ video.image.url }}" style="width: 250px; height: 250px;" alt="Movie 1"></a>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div> <!-- .row -->
+				<div class="row">
+					{% for video in videosf %}
+					<div class="col-sm-6 col-md-3">
+						<div class="latest-movie">
+							<a href="{% url 'movie:film' video.slug %}"><img style="width: 250px; height: 250px;" src="{{ video.image.url }}" alt="Movie 3"></a>
+						</div>
+					</div>
+					{% endfor %}
+				</div> <!-- .row -->
+				<h2 style="direction: ltr;">SERIAL NEW</h2>
+				<div class="row">
+					{% for serial in serials %}
+						
+						<div class="col-md-3">
+							<a href="{% url 'movie:serial' serial.slug %}"><img style="width: 250px; height: 250px;" src="{{ serial.image.url }}" alt="Movie 3"></a>
+						</div>
+
+					{% endfor %}
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,259 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<a href="{% url 'movie:index' %}">سریال</a>
+					<span>{{ video.name }}</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-6" style="float: right;">
+							<figure class="movie-poster"><img src="{{ video.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
+						</div>
+						<div class="col-md-6">
+                            <h2 class="movie-title"> <a href="{% url 'movie:serial' video.slug %}"> {{video.name}} </a>
+                                <a href="{% url 'movie:save_serial' video.slug %}">
+                                {% if save %}
+                                    <span class="material-icons">turned_in</span>
+                                {% else %}
+                                    <span class="material-icons">turned_in_not</span>
+                                {% endif %}
+                                </a>
+                            </h2>
+							<div class="movie-summary">
+								<p style="text-align: justify;">{{video.description}}</p>
+							</div>
+							<ul class="movie-meta">
+								<li><strong>امتیاز:</strong> 
+									<div class="star-rating" title="Rated {{video.ratin }} out of 10"><span style="width:{{rating}}%"><strong class="rating">{{video.ratin}}</strong> out of 10</span></div>
+								</li>
+								<li><strong>زمان:</strong> {{video.time}} دقیقه</li>
+								<li><strong>تاریخ:</strong> {{video.date}} (USA)</li>
+								<li><strong>دسته بندی:</strong> {{video.category.name}}</li>
+								<li><strong>ژانر:</strong> {{video.gener}}</li>
+							</ul>
+							<ul class="starring">
+								<li><strong>کارگردان:</strong> {{video.director}}</li>
+								<li><strong>نویسنده ها:</strong> {{video.writer}} </li>
+								<li><strong>ستارگان:</strong> {{video.stars}}</li>
+							</ul>
+							{% if request.user.is_admin %}
+							<ul>
+								<li>
+									<form  action="{% url 'movie:edit_serial' %}" method="GET">
+										<input type="text" value="{{ video.slug }}" name="slug" hidden readonly>
+										<input type="submit" value="Edit Serial"> 
+									</form>
+								</li>
+								<li>
+									<form action="{% url 'movie:create_review_serial' %}" method="GET">
+										<input type="number" name="pk" value="{{ video.pk }}" hidden readonly>
+										<input type="text" name="is_for" value="serial" hidden readonly>
+										<input type="submit" value="Create serial review">
+									</form>
+								</li>
+							</ul>
+								<ul>
+									<li>
+										<form  action="{% url 'movie:create_session' %}" method="GET">
+											<input type="number" name="pk" value="{{ video.pk }}" hidden readonly>
+											<input type="submit" value="Create serial session">
+										</form>
+									</li>
+								</ul>
+							{% endif %}
+						
+						</div>
+					</div> <!-- .row -->
+					<div class="entry-content">
+						<div class="col-md-6" style="float: right;">
+							<video width="100%" height="100%" controls>  
+								<source src="{{video.filmpas.url}}" type="video/mp4">
+								  Your browser does not support the video tag.
+							</video>
+						</div>
+					</div>
+					
+					{%if request.user.is_paid or request.user.is_admin %}
+					    <div class="entry-content">
+					    	<div class="col-md-12">
+					    		<table>
+					    			<thead>
+					    			    <tr class="">
+					    		    	    <th class="col-md-3">فصل</th>
+					    		    	    <th class="col-md-3">مشاهده </th>
+					    		    	    <th class="col-md-3">زیرنویس</th>
+					    			        {% if request.user.is_admin %}
+					    		    	        <th class="col-md-3">ویرایش</th>
+					    		    	    {% endif %}
+					    			    </tr>
+					    			</thead>
+					    			 <tbody style="text-align: center;">
+					    				{% for file in sessions %}
+					    				    <tr class="col-md-12">
+					    						<td class="col-md-3">{{ file.session }}</td>
+					    						<td class="col-md-3" > <a href="{% url 'movie:session' file.slug %}"> اپیزودها</a> </td>
+					    						{% if file.subtitle %}
+					    							<td class="col-md-3"> <a href="{{ file.subtitle.url }}" download="">دانلود</a>{{file.subtitle.size | filesizeformat}}</td>
+					    						{% else %}
+					    							<td class="col-md-3"> ---- </td>
+					    						{% endif %}
+					    						{% if request.user.is_admin %}
+					    						<td>
+                                                
+					    							<form  action="{% url 'movie:edit_session' %}" method="GET">
+					    								<input type="number" name="pk" value="{{ file.pk }}" hidden readonly>
+					    								<input type="submit" value="edit">
+					    							</form>
+
+					    						</td>
+					    						{% endif %}
+					    			    {% endfor %}
+					    			 </tbody>
+					    		</table>
+					    	</div>
+					    </div>
+					{% endif %}
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+{%endif%}
+
+
+
+{%if LANGUAGE_CODE == 'en' %}
+
+<main class="main-content" >
+    <div class="container">
+        <div class="page">
+            <div class="breadcrumbs">
+                <a href="{% url 'movie:index' %}" style="direction: ltr;">Home</a>
+                <a href="{% url 'movie:index' %}">Serial</a>
+                <span>{{ video.name }}</span>
+            </div>
+            <div class="content" style="direction: ltr;">
+                <div class="row">
+                    <div class="col-md-6" style="float: left;">
+                        <figure class="movie-poster"><img src="{{ video.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
+                    </div>
+                    <div class="col-md-6">
+                        <h2 class="movie-title"> <a href="{% url 'movie:serial' video.slug %}"> {{video.name}} </a>
+                            <a href="{% url 'movie:save_serial' video.slug %}">
+                            {% if save %}
+                                <span class="material-icons">turned_in</span>
+                            {% else %}
+                                <span class="material-icons">turned_in_not</span>
+                            {% endif %}
+                            </a>
+                        </h2>
+                        <div class="movie-summary">
+                            <p style="text-align: justify;">{{video.description}}</p>
+                        </div>
+                        <ul class="movie-meta">
+                            <li><strong>امتیاز:</strong> 
+                                <div class="star-rating" title="Rated {{video.ratin }} out of 10"><span style="width:{{rating}}%"><strong class="rating">{{video.ratin}}</strong> out of 10</span></div>
+                            </li>
+                            <li><strong>time:</strong> {{video.time}} minute</li>
+                            <li><strong>date:</strong> {{video.date}} (USA)</li>
+                            <li><strong>category:</strong> {{video.category.name_en}}</li>
+                            <li><strong>gener:</strong> {{video.gener_en}}</li>
+                        </ul>
+                        <ul class="starring">
+                            <li><strong>director:</strong> {{video.director}}</li>
+                            <li><strong>writer:</strong> {{video.writer}} </li>
+                            <li><strong>stars:</strong> {{video.stars}}</li>
+                        </ul>
+                        {% if request.user.is_admin %}
+                        <ul>
+                            <li>
+                                <form  action="{% url 'movie:edit_serial' %}" method="GET">
+                                    <input type="text" value="{{ video.slug }}" name="slug" hidden readonly>
+                                    <input type="submit" value="Edit Serial"> 
+                                </form>
+                            </li>
+                            <li>
+                                <form action="{% url 'movie:create_review_serial' %}" method="GET">
+                                    <input type="number" name="pk" value="{{ video.pk }}" hidden readonly>
+                                    <input type="text" name="is_for" value="serial" hidden readonly>
+                                    <input type="submit" value="Create serial review">
+                                </form>
+                            </li>
+                        </ul>
+                            <ul>
+                                <li>
+                                    <form  action="{% url 'movie:create_session' %}" method="GET">
+                                        <input type="number" name="pk" value="{{ video.pk }}" hidden readonly>
+                                        <input type="submit" value="Create serial session">
+                                    </form>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    
+                    </div>
+                </div> <!-- .row -->
+                <div class="entry-content">
+                    <div class="col-md-6" style="float: left;">
+                        <video width="100%" height="100%" controls>  
+                            <source src="{{video.filmpas.url}}" type="video/mp4">
+                              Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+                
+                {%if request.user.is_paid or request.user.is_admin %}
+                    <div class="entry-content">
+                        <div class="col-md-12">
+                            <table>
+                                <thead>
+                                    <tr class="">
+                                        <th class="col-md-3">session</th>
+                                        <th class="col-md-3">look </th>
+                                        <th class="col-md-3">subtitle</th>
+                                        {% if request.user.is_admin %}
+                                            <th class="col-md-3">edit</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                 <tbody style="text-align: center;">
+                                    {% for file in sessions %}
+                                        <tr class="col-md-12">
+                                            <td class="col-md-3">{{ file.session }}</td>
+                                            <td class="col-md-3" > <a href="{% url 'movie:session' file.slug %}">episod</a> </td>
+                                            {% if file.subtitle %}
+                                                <td class="col-md-3"> <a href="{{ file.subtitle.url }}" download="">donload</a>{{file.subtitle.size | filesizeformat}}</td>
+                                            {% else %}
+                                                <td class="col-md-3"> ---- </td>
+                                            {% endif %}
+                                            {% if request.user.is_admin %}
+                                            <td>
+                                            
+                                                <form  action="{% url 'movie:edit_session' %}" method="GET">
+                                                    <input type="number" name="pk" value="{{ file.pk }}" hidden readonly>
+                                                    <input type="submit" value="edit">
+                                                </form>
+
+                                            </td>
+                                            {% endif %}
+                                    {% endfor %}
+                                 </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div> <!-- .container -->
+</main>
+{%endif%}
+{% endblock %}
+	

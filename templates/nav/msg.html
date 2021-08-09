@@ -1,0 +1,23 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{{ LANGUAGE_CODE }}
+{%if LANGUAGE_CODE == 'fa' %}
+    {% if messages %}
+        {% for msg in messages %}
+            <div class="row">
+                <div class="col-md-4"></div>
+                <h1 style="background:orange; color:slategrey; text-align: center;" class="col-md-4 alert alert-{{ msg.tags }}">{{ msg }}</h1>
+            </div>    
+        {% endfor %}
+    {% endif %}
+{% endif %}
+{%if LANGUAGE_CODE == 'en' %}
+{% if messages %}
+{% for msg in messages %}
+    <div class="row" style="direction: ltr;">
+        <div class="col-md-4"></div>
+        <h1 style="background:orange; color:slategrey; text-align: center;" class="col-md-4 alert alert-{{ msg.tags }}">{{ msg }}</h1>
+    </div>    
+{% endfor %}
+{% endif %}
+{% endif %}

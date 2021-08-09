@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+<div id="site-content">
+
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<span>درباره ما</span>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<figure><img src="{% static 'dummy/film.jpg' %}" alt="figure image"></figure>
+					</div>
+					<div class="col-md-8">
+						<p class="leading" style="text-align: justify;">با این حال ، برای شما توضیح دهم که چگونه این همه فکر اشتباه در محکوم کردن لذت و ستایش کامل درد است.</p>
+						<p style="text-align: justify;">اما من باید برای شما توضیح دهم که چگونه این ایده غلط نکوهش لذت و ستایش درد متولد شده است ، و تعالیم واقعی کاوشگر بزرگ حقیقت را شرح می دهم ، و کل گزارش سیستم را بیان می کند و در سازنده اصلی آشکار می شود از خوشبختی انسان زیرا هیچ کس لذت را خود رد نمی کند ، دوست ندارد یا از آن اجتناب می کند ، زیرا این لذت است ، اما به این دلیل که این لذت منطقی است با عواقبی روبرو می شود که درد کسانی است که</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-9">
+						<h2 class="section-title">چشم انداز &amp; ماموریت</h2>
+						<p style="text-align: justify;">اما من باید برای شما توضیح دهم که چگونه این ایده غلط نکوهش لذت و ستایش درد متولد شده است ، و تعالیم واقعی کاوشگر بزرگ حقیقت را شرح می دهم ، و کل گزارش سیستم را بیان می کند و در سازنده اصلی آشکار می شود از خوشبختی انسان زیرا هیچ کس لذت را خود رد نمی کند ، دوست ندارد یا از آن اجتناب می کند ، زیرا این لذت است ، اما به این دلیل که این لذت منطقی است با عواقبی روبرو می شود که درد کسانی است که</p>
+						<p style="text-align: justify;">و همچنین هیچ کس متعلق نیست ، و درد کسانی که می خواهند با آرامش تنها و تنها بنشینند ، که بخواهد بدست بیاورد ، اما در زایمان و درد چون هیچ چیز بزرگی ندارد ، هرگز نمی تواند به دنبال لذت بردن ، به عنوان نحوه اوقات سقوط. اطلاعات را بصورت vCard E بارگیری کنید ، کدام یک از ما تا کنون ورزش بدنی را انجام داده است ، مگر اینکه از آن مزیت کسب کنید؟ اما چه کسی حق دارد تقصیرهای کسانی را که ما شایسته کسانی که در آن حضور دارند ، بدانند ، بیش از لذت و لذت آرزوی یکی بودن.</p>
+					</div>
+					<div class="col-md-3">
+						<h2 class="section-title">لینک های مفید</h2>
+						<ul class="arrow">
+							<li><a href="#">زمان و نشاط</a></li> 
+							<li><a href="#">باید تعجب کنیم</a></li>
+							<li><a href="#">جه کسی تمرین می کند</a></li> 
+							<li><a href="#">مدارس مربوطه</a></li> 
+							<li><a href="#">تکلیف درد در لذت</a></li>
+							<li><a href="#">روان درمانی بهتر</a></li> 
+							<li><a href="#">موارد استثنایی</a></li>
+						</ul>
+					</div>
+				</div> <!-- .row -->
+				
+				<h2 class="section-title">تیم ما</h2>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static  'dummy/p1.png' %}" alt=""></figure>
+							<h2 class="team-name">سحر قریشی</h2>
+							<small class="team-title">بنیان گذار</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static 'dummy/p3.jpg' %}" alt=""></figure>
+							<h2 class="team-name">نوید محمدزاده</h2>
+							<small class="team-title">مدیر عامل</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static 'dummy/p4.jpg' %}" alt=""></figure>
+							<h2 class="team-name">مهران مدیری</h2>
+							<small class="team-title">نقاد</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static 'dummy/p2.jpg' %}" alt=""></figure>
+							<h2 class="team-name">الناز شاکردوست</h2>
+							<small class="team-title">مشاور</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>	
+</div>
+{% endif %}
+
+
+{%if LANGUAGE_CODE == 'en' %}
+<div id="site-content" style="direction: ltr;">
+
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">Home</a>
+					<span>About us</span>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<figure><img src="{% static 'dummy/film.jpg' %}" alt="figure image"></figure>
+					</div>
+					<div class="col-md-8">
+						<p class="leading">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam.</p>
+								<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam.</p>
+							</div>
+				</div>
+				<div class="row">
+					<div class="col-md-9">
+						<h2 class="section-title">Vision &amp; Misssion</h2>
+								<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. </p>
+
+								<p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit consectetur adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam dignissimos ducimus qui blanditiis praesentium voluptatum atque.</p>
+							</div>
+					<div class="col-md-3">
+						<h2 class="section-title">Useful Links</h2>
+								<ul class="arrow">
+									<li><a href="#">Eiusmod tempor incididunt</a></li> 
+									<li><a href="#">Tenim ad minim venia</a></li>
+									<li><a href="#">Quis nostrud exercitation</a></li> 
+									<li><a href="#">Ullamco laboris reprehenderit</a></li> 
+									<li><a href="#">Duis aute dolor voluptat</a></li>
+									<li><a href="#">Velit esse cillum dolore</a></li> 
+									<li><a href="#">Excepteur sint occaeca</a></li>
+								</ul>
+					</div>
+				</div> <!-- .row -->
+				
+				<h2 class="section-title"> our team</h2>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static  'dummy/p1.png' %}" alt=""></figure>
+							<h2 class="team-name">sahar ghoraishy</h2>
+							<small class="team-title">Co-founder</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static 'dummy/p3.jpg' %}" alt=""></figure>
+							<h2 class="team-name">navid mohamadzadeh</h2>
+							<small class="team-title">Managing Director</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static 'dummy/p4.jpg' %}" alt=""></figure>
+							<h2 class="team-name"> mehran modiry</h2>
+							<small class="team-title">Reviewer</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="team">
+							<figure class="team-image"><img src="{% static 'dummy/p2.jpg' %}" alt=""></figure>
+							<h2 class="team-name"> elnaz shakerdost</h2>
+							<small class="team-title">Consultant</small>
+							<div class="social-links">
+								<a href="" class="facebook"><i class="fa fa-facebook"></i></a>
+								<a href="" class="twitter"><i class="fa fa-twitter"></i></a>
+								<a href="" class="google-plus"><i class="fa fa-google-plus"></i></a>
+								<a href="" class="pinterest"><i class="fa fa-pinterest"></i></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>	
+</div>
+{% endif %}
+{% endblock %}

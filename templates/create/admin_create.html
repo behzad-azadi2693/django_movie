@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<span>ادمین کنترل</span>
+				</div>
+				<div class="col-md-12">
+              <p><a href="{% url 'movie:create_movie' %}">ایجاد فیلم</a></p>
+			  <p><a href="{% url 'movie:create_serial' %}">ایجاد سریال</a></p>
+			  <p><a href="{% url 'movie:create_category' %}">ایجاد دسته بندی</a></p>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{% endif %}
+
+
+{%if LANGUAGE_CODE == 'en' %}
+<div id="site-content" style="direction: ltr;">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">Home</a>
+					<span>Admin control</span>
+				</div>
+				<div class="col-md-12">
+              <p><a href="{% url 'movie:create_movie' %}"> Create movie</a></p>
+			  <p><a href="{% url 'movie:create_serial' %}">Create serial</a></p>
+			  <p><a href="{% url 'movie:create_category' %}">Create category</a></p>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{% endif %}
+{% endblock %}

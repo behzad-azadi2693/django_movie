@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<span>ارتباط با ما</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4" >
+							<h2>ارتباط با ما</h2>
+							<ul class="contact-detail">
+								<li>
+									<img src="{% static 'images/icon-contact-map.png' %}" alt="#">
+									<address><span>;کمپانی. INC</span> <br>550 Avenue Street, New york</address>
+								</li>
+								<li>
+									<img src="{% static 'images/icon-contact-phone.png' %}" alt="">
+									<a href="tel:1590912831">+1 590 912 831</a>
+								</li>
+								<li>
+									<img src="{% static 'images/icon-contact-message.png' %}" alt="">
+									<a href="mailto:contact@companyname.com">contact@companyname.com</a>
+								</li>
+							</ul>
+							<form action="" method="POST" enctype="multipart/form-data" class="contact-form" novalidate >
+								{% csrf_token %}
+								{% for field in form %}
+								<h5 style="color: tomato;">{{ field.errors }}</h5>
+								{{ field }}
+								{{ field.help_text }}
+								{% endfor %}
+								<input type="submit" value="create" style="float: left;">
+							</form>
+						</div>
+						<div class="col-md-7 col-md-offset-1">
+							<div class="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{%endif%}
+
+
+{%if LANGUAGE_CODE == 'en' %}
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs" style="direction: ltr;">
+					<a href="{% url 'movie:index' %}">Home</a>
+					<span>contact us</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4" >
+							<h2>contact us</h2>
+							<ul class="contact-detail">
+								<li>
+									<img src="{% static 'images/icon-contact-map.png' %}" alt="#">
+									<address><span>Company name. INC</span> <br>550 Avenue Street, New york</address>
+								</li>
+								<li>
+									<img src="{% static 'images/icon-contact-phone.png' %}" alt="">
+									<a href="tel:1590912831">+1 590 912 831</a>
+								</li>
+								<li>
+									<img src="{% static 'images/icon-contact-message.png' %}" alt="">
+									<a href="mailto:contact@companyname.com">contact@companyname.com</a>
+								</li>
+							</ul>
+							<form action="" method="POST" enctype="multipart/form-data" class="contact-form" novalidate style="direction: ltr;">
+								{% csrf_token %}
+								{% for field in form %}
+								<h5 style="color: tomato;">{{ field.errors }}</h5>
+								{{ field }}
+								{{ field.help_text }}
+								{% endfor %}
+								<input type="submit" value="create">
+							</form>
+						</div>
+						<div class="col-md-7 col-md-offset-1">
+							<div class="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{%endif%}
+{% endblock %}

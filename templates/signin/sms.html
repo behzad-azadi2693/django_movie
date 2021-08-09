@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:phone' %}">ورود</a>
+					<span>تایید پیامک</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<h2><img src="{% static 'images/icon-contact-phone.png' %}" alt="">تایید پسورد ارسالی</h2>
+							<form action="" method="POST" class="contact-form" novalidate>
+								{% csrf_token %}
+								{% for field in form %}
+                                <h4 style="color: tomato; ">{{ field.errors }}</h4>
+									{{ field }}
+									{{ field.help_text }}
+								{% endfor %}
+								<p></p>
+								<input type="submit" value="ورود " style="float: left;">
+							</form>
+						</div>
+                       
+						<div class="col-md-7 col-md-offset-1">
+							<div class="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{%endif%}
+
+
+{%if LANGUAGE_CODE == 'en' %}
+<div id="site-content" style="direction: ltr;">
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:phone' %}">sign in</a>
+					<span>cheking sms</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-4"></div>
+						<div class="col-md-4">
+							<h2><img src="{% static 'images/icon-contact-phone.png' %}" alt="">Confirm password sent</h2>
+							<form action="" method="POST" class="contact-form" novalidate>
+								{% csrf_token %}
+								{% for field in form %}
+                                <h4 style="color: tomato; ">{{ field.errors }}</h4>
+									{{ field }}
+									{{ field.help_text }}
+								{% endfor %}
+								<p></p>
+								<input type="submit" value="sign in " >
+							</form>
+						</div>
+                       
+						<div class="col-md-7 col-md-offset-1">
+							<div class="map"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{%endif%}
+{% endblock %}

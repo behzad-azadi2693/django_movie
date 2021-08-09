@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<a href="{% url 'movie:index' %}">فیلم</a>
+					<span>{{ review.name }}</span>						
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-6" style="float: right;">
+							<figure class="movie-poster"><img src="{{ review.content_object.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
+						</div>
+						<div class="col-md-6">
+							<h2 class="movie-title"><a href="{% url 'movie:film' review.content_object.slug %}">{{review.name}}</a></h2>
+							<div class="movie-summary">
+								<p style="text-align: justify;">{{review.content_object.description}}</p>
+							</div>
+							<ul class="movie-meta">
+								<li><strong>امتیاز:</strong> 
+									<div class="star-rating" title="Rated {{video.ratin }} out of 10"><span style="width:{{rating}}%"><strong class="rating">{{video.ratin}}</strong> out of 10</span></div>
+								</li>
+								<li><strong>زمان:</strong> {{review.content_object.time}} دقیقه</li>
+								<li><strong>تاریخ:</strong> {{review.content_object.date}} (USA)</li>
+								<li><strong>دسته بندی:</strong> {{review.content_object.category}}</li>
+							</ul>
+							<ul class="starring">
+								<li><strong>کارگردان:</strong> {{review.content_object.director}}</li>
+								<li><strong>نویسنده ها:</strong> {{review.content_object.writer}} </li>
+								<li><strong>ستارگان:</strong> {{review.content_object.stars}}</li>
+							</ul>
+							
+							{% if request.user.is_admin %}
+							    <ul>
+							    	<li>
+							    		<form action="{% url 'movie:edit_review' %}"method="GET">
+							    			<input type="text" value="{{ review.slug }}" name="slug" hidden readonly>
+							    			<input type="submit" value="Edit Movie">
+							    		</form>
+							    	</li>
+							    </ul>
+							{% endif %}
+						</div>
+					</div> <!-- .row -->
+					<div class="entry-content">
+						<div class="col-md-6" style="float: right;">
+							<video width="100%" height="100%" controls>  
+								<source src="{{review.content_object.filmpas.url}}" type="video/mp4">
+								  Your browser does not support the video tag.
+							</video>
+						</div>
+					</div>
+
+					{%if request.user.is_paid or request.user.is_admin %}
+					    <div class="entry-content">
+					    	<div class="col-md-12">
+					    		{% if review.description %}
+					    			<div class="col-md-6" style="float: right;">
+					    				{{ review.description }}
+					    			</div>
+					    		{% endif %}
+					    		{% if review.filmpas %}
+					    		    <div class="col-md-6" style="float: right;">
+					    		    	<video width="100%" height="100%" controls>  
+					    		    		<source src="{{ review.filmpas.url}}" type="video/mp4">
+					    		    		  Your browser does not support the video tag.
+					    		    	</video>
+					    		    </div>
+					    		{% endif %}
+					    	</div>
+					    </div>
+					{% endif %}
+
+                </div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+{%endif%}
+
+
+
+{%if LANGUAGE_CODE == 'en' %}
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+            <div class="breadcrumbs" style="direction: ltr;">
+                <a href="{% url 'movie:index' %}">Home</a>
+                <a href="{% url 'movie:index' %}">Movie</a>
+                <span>{{ review.name }}</span>						
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-6" style="float: left;">
+                        <figure class="movie-poster"><img src="{{ review.content_object.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
+                    </div>
+                    <div class="col-md-6" style="direction: ltr;">
+                        <h2 class="movie-title"><a href="{% url 'movie:film' review.content_object.slug %}">{{review.name}}</a></h2>
+                        <div class="movie-summary">
+                            <p style="text-align: justify;">{{review.content_object.description_en}}</p>
+                        </div>
+                        <ul class="movie-meta">
+                            <li><strong>ratin:</strong> 
+                                <div class="star-rating" title="Rated {{video.ratin }} out of 10"><span style="width:{{rating}}%"><strong class="rating">{{video.ratin}}</strong> out of 10</span></div>
+                            </li>
+                            <li><strong>time:</strong> {{review.content_object.time}} minute</li>
+                            <li><strong>date:</strong> {{review.content_object.date}} (USA)</li>
+                            <li><strong>category:</strong> {{review.content_object.category.name_en}}</li>
+                            <li><strong>gener:</strong> {{review.content_object.gener_en}}</li>
+                        </ul>
+                        <ul class="starring">
+                            <li><strong>director:</strong> {{review.content_object.director}}</li>
+                            <li><strong>writer:</strong> {{review.content_object.writer}} </li>
+                            <li><strong>stars:</strong> {{review.content_object.stars}}</li>
+                        </ul>
+                        
+                        {% if request.user.is_admin %}
+                            <ul>
+                                <li>
+                                    <form action="{% url 'movie:edit_review' %}"method="GET">
+                                        <input type="text" value="{{ review.slug }}" name="slug" hidden readonly>
+                                        <input type="submit" value="Edit Movie">
+                                    </form>
+                                </li>
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div> <!-- .row -->
+                <div class="entry-content">
+                    <div class="col-md-6"  style="float: left;">
+                        <video width="100%" height="100%" controls>  
+                            <source src="{{review.content_object.filmpas.url}}" type="video/mp4">
+                              Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>
+
+                {%if request.user.is_paid or request.user.is_admin %}
+                    <div class="entry-content" style="float: left;">
+                        <div class="col-md-12" style="direction: ltr;">
+                            {% if review.description %}
+                                <div class="col-md-6" style="text-align: justify;">
+                                    {{ review.description_en }}
+                                </div>
+                            {% endif %}
+                            {% if review.filmpas %}
+                                <div class="col-md-6" style="float: left;">
+                                    <video width="100%" height="100%" controls>  
+                                        <source src="{{ review.filmpas.url}}" type="video/mp4">
+                                          Your browser does not support the video tag.
+                                    </video>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+
+            </div>
+        </div>
+    </div> <!-- .container -->
+</main>
+
+{%endif%}
+{% endblock %}

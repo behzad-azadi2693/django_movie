@@ -1,0 +1,45 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<!DOCTYPE html>
+{%if LANGUAGE_CODE == 'fa' %}
+<html lang="FA-IR">
+{% endif %}
+{%if LANGUAGE_CODE == 'en' %}
+<html lang="EN-USA">
+{% endif %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Loading third party fonts -->
+	
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+	<link href="{% static 'fonts/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    {%if LANGUAGE_CODE == 'fa' %}
+        <link rel="stylesheet" href="{% static 'styleTest.css' %}">
+    {% endif %}
+
+	<!-- Loading main css file -->
+	<link rel="stylesheet" href="{% static  'style.css' %}">
+
+    {% block title %} {% endblock %}
+
+</head>
+<body>
+    {% include 'nav/header.html' %}
+    {% include 'nav/msg.html' %}
+    {% block body %} 
+    {% include 'nav/msg.html' %}
+
+    {% endblock %}
+
+    {% include 'nav/foot.html' %}
+	<script src="{% static 'js/jquery-1.11.1.min.js' %}"></script>
+	<script src="{% static 'js/plugins.js' %}"></script>
+	<script src="{% static 'js/app.js' %}"></script>
+		
+</body>
+</html>

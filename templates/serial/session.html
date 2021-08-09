@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+	<main class="main-content">
+		<div class="container">
+			<div class="page">
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+                    <a href="{% url 'movie:index' %}">سریال</a>
+					<span>{{ video.name }}</span>
+				</div>
+				<div class="content">
+					<div class="row">
+						<div class="col-md-6" style="float: right;">
+							<figure class="movie-poster"><img src="{{ video.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
+						</div>
+						<div class="col-md-6">
+							<h2 class="movie-title">{{video.name}}</h2>
+							<div class="movie-summary">
+								<p style="text-align: justify;">{{video.description}}</p>
+							</div>
+								<ul class="movie-meta">
+									<li><strong>امتیاز:</strong> 
+										<div class="star-rating" title="Rated {{video.ratin }} out of 10"><span style="width:{{rating}}%"><strong class="rating">{{video.ratin}}</strong> out of 10</span></div>
+									</li>
+									<li><strong>زمان:</strong> {{video.time}} دقیقه</li>
+									<li><strong>تاریخ:</strong> {{video.date}} (USA)</li>
+									<li><strong>دسته بندی:</strong> {{video.category}}</li>
+								</ul>
+								<ul class="starring">
+									<li><strong>کارگردان:</strong> {{video.director}}</li>
+									<li><strong>نویسنده ها:</strong> {{video.writer}} </li>
+									<li><strong>ستارگان:</strong> {{video.stars}}</li>
+								</ul>
+							
+										{% if request.user.is_admin %}
+										<ul>
+											<li>
+												<form action="{% url 'movie:create_related_serial' %}" method="GET">
+													<input type="number" value="{{ video.pk }}" name="serial" hidden readonly>
+													<input type="number" value="{{ episod.pk }}" name="session" hidden readonly>
+													<input type="submit" value="create episod">
+												</form>
+											</li>
+
+										</ul>
+										{% endif %}
+						</div>
+					</div> <!-- .row -->
+					<div class="entry-content">
+						<div class="col-md-6" style="float: right;">
+							<video width="100%" height="100%" controls>  
+								<source src="{{video.filmpas.url}}" type="video/mp4">
+								  Your browser does not support the video tag.
+							</video>
+						</div>
+					</div>					
+                    {% if request.user.is_paid or request.user.is_admin%}
+					    <div class="entry-content">
+					    	<div class="col-md-12">
+					    		<table>
+					    			<thead>
+					    			  <tr class="">
+					    				<th class="col-md-3">اپیزود</th>
+					    				<th class="col-md-3">1080کیفیت</th>
+					    				<th class="col-md-3">720کیفیت</th>
+					    				<th class="col-md-3">480کیفیت</th>
+					    			  </tr>
+					    			 </thead>
+					    			 <tbody style="text-align: center;">
+					    				{% for file in serials %}
+					    				    <tr class="col-md-12">
+					    						 <td class="col-md-3">{{ file.episod }}</td>
+					    						{% if file.serial1080 %}
+					    						 	<td class="col-md-3">  <a href="{{ file.serial1080.url }}" download="">دانلود</a>|<a href="{% url 'movie:serial_single' file.slug %}">نمایش</a>{{file.serial1080.size | filesizeformat}} </td>
+					    						{% else %}
+					    						    <td class="col-md-3" > ---- </td>
+					    						{% endif %}
+                                            
+					    						{% if file.serial720 %}
+					    							<td class="col-md-3"> <a href="{{ file.serial720.url }}" download="">دانلود</a>|<a href="{% url 'movie:serial_single' file.slug %}" >نمایش</a>{{file.serial720.size | filesizeformat}} </td>
+					    						{% else %}
+					    							<td class="col-md-3"> ---- </td>
+
+					    						{% endif %}
+
+					    						{% if file.serial480 %}
+					    							<td class="col-md-3"> <a href="{{ file.serial480.url }}" download="">دانلود</a> | {{file.serial480.size | filesizeformat}}</td>
+					    						{% else %}
+					    							<td class="col-md-3"> ---- </td>
+					    						{% endif %}
+					    			  	 	</tr>
+					    			   {% endfor %}
+					    			</tbody>
+					    		</table>
+					    	</div>
+					    </div>
+                    {% else %}
+                        <p style="color: tomato;">Please upgrade your account by purchasing a subscription </p>
+                    {% endif %}
+				</div>
+			</div>
+		</div> <!-- .container -->
+	</main>
+</div>
+{%endif%}
+
+
+{%if LANGUAGE_CODE == 'en' %}
+
+<main class="main-content">
+    <div class="container">
+        <div class="page">
+            <div class="breadcrumbs" style="direction: ltr;">
+                <a href="{% url 'movie:index' %}">Home</a>
+                <a href="{% url 'movie:index' %}">Serial</a>
+                <span>{{ video.name }}</span>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-6" style="float: left;">
+                        <figure class="movie-poster"><img src="{{ video.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
+                    </div>
+                    <div class="col-md-6" style="direction: ltr;">
+                        <h2 class="movie-title">{{video.name}}</h2>
+                        <div class="movie-summary">
+                            <p style="text-align: justify;">{{video.description_en}}</p>
+                        </div>
+                            <ul class="movie-meta">
+                                <li><strong>ratin:</strong> 
+                                    <div class="star-rating" title="Rated {{video.ratin }} out of 10"><span style="width:{{rating}}%"><strong class="rating">{{video.ratin}}</strong> out of 10</span></div>
+                                </li>
+                                <li><strong>time:</strong> {{video.time}} minute</li>
+                                <li><strong>date:</strong> {{video.date}} (USA)</li>
+                                <li><strong>category:</strong> {{video.category.name_en}}</li>
+                                <li><strong>gener:</strong> {{video.gener_en}}</li>
+                            </ul>
+                            <ul class="starring">
+                                <li><strong>director:</strong> {{video.director}}</li>
+                                <li><strong>writer:</strong> {{video.writer}} </li>
+                                <li><strong>stars:</strong> {{video.stars}}</li>
+                            </ul>
+                        
+                            {% if request.user.is_admin %}
+                                <ul>
+                                    <li>
+                                        <form action="{% url 'movie:create_related_serial' %}" method="GET">
+                                            <input type="number" value="{{ video.pk }}" name="serial" hidden readonly>
+                                            <input type="number" value="{{ episod.pk }}" name="session" hidden readonly>
+                                            <input type="submit" value="create episod">
+                                        </form>
+                                    </li>
+                                </ul>
+                            {% endif %}
+                    </div>
+                </div> <!-- .row -->
+                <div class="entry-content">
+                    <div class="col-md-6" style="float: left;">
+                        <video width="100%" height="100%" controls>  
+                            <source src="{{video.filmpas.url}}" type="video/mp4">
+                              Your browser does not support the video tag.
+                        </video>
+                    </div>
+                </div>			
+                		
+                {% if request.user.is_paid or request.user.is_admin%}
+                    <div class="entry-content" style="direction: ltr;">
+                        <div class="col-md-12">
+                            <table>
+                                <thead>
+                                  <tr class="">
+                                    <th class="col-md-3">episod</th>
+                                    <th class="col-md-3">quality1080</th>
+                                    <th class="col-md-3">quality720</th>
+                                    <th class="col-md-3">quality480</th>
+                                  </tr>
+                                 </thead>
+                                 <tbody style="text-align: center;">
+                                    {% for file in serials %}
+                                        <tr class="col-md-12">
+                                             <td class="col-md-3">{{ file.episod }}</td>
+                                            {% if file.serial1080 %}
+                                                 <td class="col-md-3">  <a href="{{ file.serial1080.url }}" download="">donload</a>|<a href="{% url 'movie:serial_single' file.slug %}">view</a>{{file.serial1080.size | filesizeformat}} </td>
+                                            {% else %}
+                                                <td class="col-md-3" > ---- </td>
+                                            {% endif %}
+                                        
+                                            {% if file.serial720 %}
+                                                <td class="col-md-3"> <a href="{{ file.serial720.url }}" download="">donload</a>|<a href="{% url 'movie:serial_single' file.slug %}" >view</a>{{file.serial720.size | filesizeformat}} </td>
+                                            {% else %}
+                                                <td class="col-md-3"> ---- </td>
+
+                                            {% endif %}
+
+                                            {% if file.serial480 %}
+                                                <td class="col-md-3"> <a href="{{ file.serial480.url }}" download="">donload</a> | {{file.serial480.size | filesizeformat}}</td>
+                                            {% else %}
+                                                <td class="col-md-3"> ---- </td>
+                                            {% endif %}
+                                           </tr>
+                                   {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                {% else %}
+                    <p style="color: tomato;">Please upgrade your account by purchasing a subscription </p>
+                {% endif %}
+            </div>
+        </div>
+    </div> <!-- .container -->
+</main>
+{%endif%}
+
+{% endblock %}
+	

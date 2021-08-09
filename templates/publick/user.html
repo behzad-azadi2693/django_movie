@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% block body %}
+{%if LANGUAGE_CODE == 'fa' %}
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page" >
+				<div class="breadcrumbs">
+					<a href="{% url 'movie:index' %}">خانه</a>
+					<span> پروفایل</span>
+				</div>
+				<div class="content" style="direction: ltr;">
+                {{ request.user.phone_number }} <br>
+				{{ ip }} <br>
+				{{ info }}
+				</div>
+			</div>
+		</div> <!-- .container -->
+        <br>
+        <div class="container">
+            <h1>ذخیره شده ها</h1>
+
+            <div class="movie-list">
+                {% if saves %}
+                    {% for rew in saves %}
+                    <div class="movie">
+                        <figure class="movie-poster"><img src="{{ rew.content_object.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
+                        {% if rew.content_object.is_a == 'serial' %}   
+                            <div class="movie-title"><a href="{% url 'movie:serial' rew.content_object.slug %}">{{ rew.content_object.name }}</a></div>
+                        {% else %}    
+                            <div class="movie-title"><a href="{% url 'movie:film' rew.content_object.slug %}">{{ rew.content_object.name }}</a></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div> 
+        </div>
+	</main>
+</div>
+{% endif %}
+	
+
+{%if LANGUAGE_CODE == 'en' %}
+<div id="site-content">
+	<main class="main-content">
+		<div class="container">
+			<div class="page" style="direction: ltr;">
+				<div class="breadcrumbs" style="direction: ltr;">
+					<a href="{% url 'movie:index' %}">Home</a>
+					<span> Profile</span>
+				</div>
+				<div class="content">
+                {{ request.user.phone_number }} <br>
+				{{ ip }} <br>
+				{{ info }}
+				</div>
+			</div>
+		</div> <!-- .container -->
+        <br>
+        <div class="container">
+            <h1 style="float: left;">SAVED</h1>
+
+            <div class="movie-list">
+                {% if saves %}
+                    {% for rew in saves %}
+                    <div class="movie">
+                        <figure class="movie-poster"><img src="{{ rew.content_object.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
+                        {% if rew.content_object.is_a == 'serial' %}   
+                            <div class="movie-title" style="direction: ltr;"><a href="{% url 'movie:serial' rew.content_object.slug %}">{{ rew.content_object.name }}</a></div>
+                        {% else %}    
+                            <div class="movie-title" style="direction: ltr;"><a href="{% url 'movie:film' rew.content_object.slug %}">{{ rew.content_object.name }}</a></div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% endif %}
+            </div> 
+        </div>
+	</main>
+</div>
+{%endif%}
+{% endblock %}

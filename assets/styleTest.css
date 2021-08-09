@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Parastoo';
+    src: url('./fonts-fa/parastoo-font-v1.0.0-alpha5/web/Parastoo.eot');
+    src: url('./fonts-fa/parastoo-font-v1.0.0-alpha5/web/Parastoo.woff') format('woff');
+    scrc:url('./fonts-fa/parastoo-font-v1.0.0-alpha5/web/Parastoo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    }
+body{
+    font-family: "Parastoo" !important;
+    }
