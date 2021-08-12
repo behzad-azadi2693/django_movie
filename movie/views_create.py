@@ -26,7 +26,7 @@ def create_movie(request):
             if form.is_valid():
                 cd = form.cleaned_data
                 movie = Movie.objects.create(
-                    name = cd['name'], title = cd['title'], gener =cd['gener'],
+                    name = cd['name'],name_en = cd['name_en'], title = cd['title'], gener =cd['gener'],
                     gener_en = cd['gener_en'], description = cd['description'], description_en = cd['description_en'],
                     image = cd['image'], filmpas = cd['filmpas'], subtitle = cd['subtitle'],
                     film1080 = cd['film1080'], filme720 = cd['filme720'], film480=cd['film480'],
@@ -64,7 +64,7 @@ def create_serial(request):
             if form.is_valid():
                 cd = form.cleaned_data
                 serial = Serial.objects.create(
-                    name = cd['name'], title = cd['title'], gener =cd['gener'],
+                    name = cd['name'],name_en = cd['name_en'], title = cd['title'], gener =cd['gener'],
                     gener_en = cd['gener_en'], description = cd['description'], description_en = cd['description_en'],
                     image = cd['image'], filmpas = cd['filmpas'],
                     date = cd['date'], ratin = cd['ratin'], awards = cd['awards'], time = cd['time'],
@@ -200,7 +200,7 @@ def create_review_movie(request):
                 review = Review(
                     title = cd['title'],description=cd['description'],description_en = cd['description_en'],
                     filmpas = cd['filmpas'], content_object = movie, is_for = cd['is_for'], name=movie.name,
-                    choice = movie.choice
+                    choice = movie.choice, name_en = movie.name_en
                 ) 
                 review.save()
                 return redirect(review)
@@ -231,7 +231,7 @@ def create_review_serial(request):
                 review = Review(
                     title = cd['title'],description=cd['description'],description_en = cd['description_en'],
                     filmpas = cd['filmpas'], content_object = movie, is_for = cd['is_for'], name=movie.name,
-                    choice = movie.choice
+                    choice = movie.choice, name_en=movie.name_en
                 )
                 review.save()
                 return redirect(review)

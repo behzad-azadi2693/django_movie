@@ -68,9 +68,9 @@
                     <div class="movie">
                         <figure class="movie-poster"><img src="{{ rew.content_object.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
                         {% if rew.content_object.is_a == 'serial' %}   
-                            <div class="movie-title" style="direction: ltr;"><a href="{% url 'movie:serial' rew.content_object.slug %}">{{ rew.content_object.name }}</a></div>
+                            <div class="movie-title" style="direction: ltr;"><a href="{% url 'movie:serial' rew.content_object.slug %}">{{ rew.content_object.name_en }}</a></div>
                         {% else %}    
-                            <div class="movie-title" style="direction: ltr;"><a href="{% url 'movie:film' rew.content_object.slug %}">{{ rew.content_object.name }}</a></div>
+                            <div class="movie-title" style="direction: ltr;"><a href="{% url 'movie:film' rew.content_object.slug %}">{{ rew.content_object.name_en }}</a></div>
                         {% endif %}
                     </div>
                     {% endfor %}

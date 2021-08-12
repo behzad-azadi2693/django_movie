@@ -27,7 +27,9 @@
 						<option value="">---</option>
 						<option {% if  type == 'serial' %} selected {% endif %} value="serial">سریال</option>
 						<option {% if  type == 'movie' %} selected {% endif %} value="movie">فیلم</option>
-					</select>
+				</select>
+					<input type="text" name="date" id="" placeholder="سال: 2021" {% if date %} value="date" {% endif %}>
+					<input type="text" name="gener" id="" placeholder="ژانر" {% if date %} value="gener" {% endif %}>
 					<input type="submit" name="" id="" value="فیلم و سریال">
 				</form>
 				<div class="movie-list">
@@ -103,20 +105,22 @@
 					<option {% if  type == 'serial' %} selected {% endif %} value="serial">Serial</option>
 					<option {% if  type == 'movie' %} selected {% endif %} value="movie">Movie</option>
 				</select>
+					<input type="text" name="date" id="" placeholder="years: 2021" {% if date %} value="date" {% endif %}>
+					<input type="text" name="gener" id="" placeholder="gener" {% if date %} value="gener" {% endif %}>
 				<input type="submit" name="" id="" value="movie & serial">
 			</form>
 			<div class="movie-list">
 				{% if searchs %}
 					{% for ser in searchs %}
-						<div class="movie">
+						<div class="movie" style="direction: ltr;">
 							<figure class="movie-poster"><img src="{{ ser.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
 							{% if ser.is_a == 'movie' %}
-								<div class="movie-title"><a href="{% url 'movie:film' ser.slug  %}">{{ ser.name }}</a></div>
+								<div class="movie-title"><a href="{% url 'movie:film' ser.slug  %}">{{ ser.name_en }}</a></div>
 							{% elif ser.is_a == 'serial' %}
-								<div class="movie-title"><a href="{% url 'movie:serial' ser.slug  %}">{{ ser.name }}</a></div>
+								<div class="movie-title"><a href="{% url 'movie:serial' ser.slug  %}">{{ ser.name_en }}</a></div>
 						
 							{% endif %} 
-							<p style="text-align: justify;">{{ser.description|truncatewords:80}}</p>
+							<p style="text-align: justify;">{{ser.description_en|truncatewords:80}}</p>
 						</div>
 					{% endfor %}
 				{% else %}

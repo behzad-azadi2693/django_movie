@@ -36,6 +36,7 @@ class User(AbstractBaseUser,PermissionsMixin):
     phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True, verbose_name=_("your phone number") ) # validators should be a list
 
     save = GenericRelation('Save')
+    
 
     is_active = models.BooleanField(default=True, verbose_name=_("user is active"))
     is_admin = models.BooleanField(default=False, verbose_name=_("user is admin"))
@@ -89,7 +90,8 @@ class Movie(models.Model):
     ("child","child"),
     ("animate","animate")
     )
-    name = models.CharField(max_length=200, verbose_name=_("movie name"))
+    name = models.CharField(max_length=200, verbose_name=_("movie name"))    
+    name_en = models.CharField(max_length=200, verbose_name=_("movie name en"))
     title = models.CharField(max_length=200, verbose_name=_("movie title"))
     slug = models.SlugField(allow_unicode=True, verbose_name=_("movie slug"))
     gener = models.CharField(max_length=250, verbose_name=_("movie gener"))
@@ -161,6 +163,7 @@ class Serial(models.Model):
     ("animate","animate")
     )
     name = models.CharField(max_length=200, verbose_name= _("serial name"))
+    name_en = models.CharField(max_length=200, verbose_name=_("serial name en"))
     title = models.CharField(max_length=200, verbose_name=_("serial title"))
     slug = models.SlugField(allow_unicode=True, verbose_name=_("serial slug"))
     description = models.TextField(verbose_name=_("serial description"))
@@ -252,7 +255,8 @@ class Review(models.Model):
         ("serial", "serial"),
         ("movie", "movie"),
     )
-    name = models.CharField(max_length=250)
+    name = models.CharField(max_length=200, verbose_name=_('review name'))
+    name_en = models.CharField(max_length=200, verbose_name=_("review name en"))
     title = models.CharField(max_length=200, verbose_name=_("serial title"))
     slug = models.SlugField(allow_unicode=True, verbose_name=_("serial slug"))
     description = models.TextField(verbose_name=_("serial description"))

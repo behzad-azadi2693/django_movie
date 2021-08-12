@@ -6,20 +6,11 @@
 {% block body %}
 {%if LANGUAGE_CODE == 'fa' %}
 
-<div id="site-content">
+<div id="site-content" >
 	<main class="main-content">
 		<div class="container">
 			<div class="page">
 				<div class="row">
-					<div class="col-md-9">
-						<div class="slider row">
-							<ul class="slides">
-								<li><a ><img src="{% static 'dummy/film1.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 1"></a></li>
-								<li><a ><img src="{% static 'dummy/film2.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 2"></a></li>
-								<li><a ><img src="{% static 'dummy/film3.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 3"></a></li>
-							</ul>
-						</div>
-					</div>
 					<div class="col-md-3">
 						<div class="row">
 							{% for video in videosr %}
@@ -29,6 +20,15 @@
 								</div>
 							</div>
 							{% endfor %}
+						</div>
+					</div>
+					<div class="col-md-9">
+						<div class="slider row">
+							<ul class="slides" style="float: right; direction: rtl;">
+								<li><a ><img src="{% static 'dummy/film1.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 1"></a></li>
+								<li><a ><img src="{% static 'dummy/film2.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 2"></a></li>
+								<li><a ><img src="{% static 'dummy/film3.jpg' %}" style="width: 1000px; height: 530px;" alt="Slide 3"></a></li>
+							</ul>
 						</div>
 					</div>
 				</div> <!-- .row -->

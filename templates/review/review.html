@@ -108,7 +108,7 @@
 				{% for rew in reviews %}
 				<div class="movie" style="direction: ltr;">
 					<figure class="movie-poster"><img src="{{ rew.content_object.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
-						<div class="movie-title"><a href="{% url 'movie:singel_review' rew.slug %}">{{ rew.name }}</a></div>
+						<div class="movie-title"><a href="{% url 'movie:singel_review' rew.slug %}">{{ rew.name_en }}</a></div>
 					<p style="text-align: justify;">{{rew.description_en|truncatewords:80}}</p>
 				</div>
 				{% endfor %}

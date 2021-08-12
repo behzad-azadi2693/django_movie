@@ -5,7 +5,6 @@ from .forms import FormContactForm
 from django.core.cache import cache
 from django.contrib import messages
 from django.utils import translation
-from django.views.decorators.cache import cache_page
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
@@ -95,13 +94,25 @@ def collection(request):
         serial_all = serial_all.filter(is_a=type)
         all_list = list(chain(film_all,serial_all))
 
-    if request.GET.get('choice'):
+    elif request.GET.get('choice'):
         choice = request.GET.get('choice')
         film_all = film_all.filter(choice=choice)
         serial_all = serial_all.filter(choice=choice)
         all_list = list(chain(film_all,serial_all))
-        
-    if (request.GET.get('type') == None and request.GET.get('choice') == None) or not request.GET.get('type') and not request.GET.get('type'):
+    
+    elif request.GET.get('gener'):
+       gener = request.GET.get('gener')
+       film_all = film_all.filter(gener=gener) or film_all.filter(gener_en=gener)
+       serial_all = serial_all.filter(gener=gener) or serial_all.filter(gener_en=gener)
+       all_list = list(chain(film_all,serial_all))
+    
+    elif request.GET.get('date'):
+       date = request.GET.get('date')
+       film_all = film_all.filter(date__years=date)
+       serial_all = serial_all.filter(date__years=date)
+       all_list = list(chain(film_all,serial_all))
+       
+    else:
         all_list = cache.get('collection_all_list')
         if not all_list:
             film_ir = film_all.filter(choice='iranian')[:20]
@@ -147,6 +158,8 @@ def collection(request):
         'searchs' : searchs,
         'choice':request.GET.get('choice'),
         'type':request.GET.get('type'),
+        'date': request.GET.get('date'),
+        'gener':request.GET.get('gener'),
     }
     return render(request, 'publick/collection.html', context)
 
@@ -156,12 +169,14 @@ def search(request):
         query = request.GET.get('q')
         movies = Movie.objects.filter(
             Q(name__contains=query) | Q(date__contains=query) |
-            Q(description__contains=query) | Q(category__name__contains=query) |
+            Q(description__contains=query) | Q(description_en__contains=query) |
+            Q(category__name__contains=query) | Q(name_en__contains=query) |
             Q(category__name_en__contains = query)
         )
         serials = Serial.objects.filter(
             Q(name__contains=query) | Q(date__contains=query) |
-            Q(description__contains=query) | Q(category__name__contains=query) |
+            Q(description__contains=query) | Q(description_en__contains=query) |
+            Q(category__name__contains=query) |  Q(name_en__contains=query) |
             Q(category__name_en__contains = query)
 
         )
@@ -173,8 +188,8 @@ def search(request):
 
         if request.GET.get('name'):
             name = request.GET.get('name')
-            movies = movies.filter(name=name)
-            serials = serials.filter(name=name)
+            movies = movies.filter(name=name) or movies.filter(name_en=name)
+            serials = serials.filter(name=name) or serials.filter(name_en=name)
         
         if request.GET.get('type'):
             type = request.GET.get('type')
@@ -276,7 +291,7 @@ def serial_single(request, slug):
     if not episod:
         episod = get_object_or_404(SerialFilms,slug=slug)
         if episod:
-            cache.set(f'serial_single_{slug}')
+            cache.set(f'serial_single_{slug}',episod, 60 * 60)
     serial_id = episod.serial.pk
     video = get_object_or_404(Serial,pk=serial_id)
     serials = video.serial_film.all()
@@ -313,7 +328,7 @@ def review(request):
 
     if request.GET.get('name'):
         name = request.GET.get('name')
-        reviews = review.filter(name=name)
+        reviews = review.filter(name=name) or review.filter(name_en=name)
 
     if request.GET.get('type'):
         type = request.GET.get('type')

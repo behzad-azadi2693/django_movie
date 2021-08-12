@@ -93,7 +93,7 @@
             <div class="breadcrumbs" style="direction: ltr;">
                 <a href="{% url 'movie:index' %}">Home</a>
                 <a href="{% url 'movie:index' %}">Movie</a>
-                <span>{{ review.name }}</span>						
+                <span>{{ review.name_en }}</span>						
             </div>
             <div class="content">
                 <div class="row">
@@ -101,7 +101,7 @@
                         <figure class="movie-poster"><img src="{{ review.content_object.image.url }}" style="height: 450px; width: 100%;" alt="#"></figure>
                     </div>
                     <div class="col-md-6" style="direction: ltr;">
-                        <h2 class="movie-title"><a href="{% url 'movie:film' review.content_object.slug %}">{{review.name}}</a></h2>
+                        <h2 class="movie-title"><a href="{% url 'movie:film' review.content_object.slug %}">{{review.name_en}}</a></h2>
                         <div class="movie-summary">
                             <p style="text-align: justify;">{{review.content_object.description_en}}</p>
                         </div>
@@ -144,7 +144,7 @@
                 {%if request.user.is_paid or request.user.is_admin %}
                     <div class="entry-content" style="float: left;">
                         <div class="col-md-12" style="direction: ltr;">
-                            {% if review.description %}
+                            {% if review.description_en %}
                                 <div class="col-md-6" style="text-align: justify;">
                                     {{ review.description_en }}
                                 </div>

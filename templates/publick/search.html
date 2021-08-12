@@ -113,9 +113,9 @@
                         <div class="movie" style="direction: ltr;">
                             <figure class="movie-poster"><img src="{{ ser.image.url }}" style="height: 300px; width: 300px;" alt="#"></figure>
                             {% if ser.is_a == 'movie' %}
-                                <div class="movie-title"><a href="{% url 'movie:film' ser.slug  %}">{{ ser.name }}</a></div>
+                                <div class="movie-title"><a href="{% url 'movie:film' ser.slug  %}">{{ ser.name_en }}</a></div>
                             {% elif ser.is_a == 'serial' %}
-                                <div class="movie-title"><a href="{% url 'movie:serial' ser.slug  %}">{{ ser.name }}</a></div>
+                                <div class="movie-title"><a href="{% url 'movie:serial' ser.slug  %}">{{ ser.name_en }}</a></div>
                         
                             {% endif %} 
                             <p style="text-align: justify;">{{ser.description_en|truncatewords:80}}</p>

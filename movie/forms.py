@@ -96,7 +96,7 @@ class FormMovie(forms.ModelForm):
     class Meta:
         model = Movie
         fields = (
-            'name','title','gener','gener_en','description','description_en',
+            'name', 'name_en','title','gener','gener_en','description','description_en',
             'director','writer','stars','time','date','awards','choice','category',
             'ratin','image','filmpas','film1080','filme720','film480','subtitle','slug'
         )
@@ -106,7 +106,7 @@ class FormMovie(forms.ModelForm):
         labels = {
             'name':_('*movie name'),'slug':'','title':_('*movie title'),'description':_('*movie description'),'description_en':_('*movie description en'),
             'director':_('movie director'),'writer':_('movie writer'),'stars':_('movie stars'),'time':_('movie time'),'date':_('*movie date'),
-            'awards':_('movie awards'),'choice':_('movie is'),'category':_('*movie category'),'ratin':_('movie ratin'),
+            'awards':_('movie awards'),'choice':_('movie is'),'category':_('*movie category'),'ratin':_('movie ratin'),'name_en':_('*movie name en'),
             'image':_('*movie image'),'filmpas':_('*movie preview'),'film1080':_('movie quality 1080'),'filme720':_('movie quality 720'),
             'film480':_('movie quality 480'),'subtitle':_('movie subtitle'),'gener':_('*movie gener'),'gener_en':_('*movie gener en')
         }
@@ -117,6 +117,7 @@ class FormMovie(forms.ModelForm):
         }
         error_messages = {
             'name':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
+            'name_en':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
             'gener':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
             'gener_en':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
             'title':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
@@ -141,7 +142,7 @@ class FormSerial(forms.ModelForm):
     class Meta:
         model = Serial
         fields = (
-            'name','title','gener','gener_en','description','description_en','date','time','awards','ratin',
+            'name', 'name_en','title','gener','gener_en','description','description_en','date','time','awards','ratin',
             'director','writer','stars','choice','category','image','filmpas','slug'
             )
         exclude = ('is_serial',)
@@ -149,7 +150,7 @@ class FormSerial(forms.ModelForm):
             'slug':forms.HiddenInput(attrs={'readonly':'readonly','hidden':'hidden','value':'title'}),
         }
         labels = {
-            'name':_('*serial name'),'gener':_('*serial gener'),'gener_en':_('*serial gener en'),'title':_('*serial title'),
+            'name':_('*serial name'),'name_en':_('*serial name en'),'gener':_('*serial gener'),'gener_en':_('*serial gener en'),'title':_('*serial title'),
             'description':_('*serial description'),'description_en':_('*serial description en'),'director':_('serial director'),
             'writer':_('serial writer'),'stars':_('serial stars'),'time':_('serial time'),'date':_('*serial date'),
             'awards':_('serial awards'),'choice':_('*serial choice'),'category':_('*serial category'),'ratin':_('serial ratin'),
@@ -162,6 +163,7 @@ class FormSerial(forms.ModelForm):
         }
         error_messages = {
             'name':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
+            'name_en':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
             'title':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},
             'description':{'required':_('this is fields required'),},
             'description_en':{'required':_('this is fields required'),},
@@ -250,13 +252,13 @@ class FormReview(forms.ModelForm):
 class FormReviewEdit(forms.ModelForm):
     class Meta:
         model = Review
-        fields = ('name', 'title', 'description', 'description_en', 'filmpas', 'slug')
+        fields = ('name', 'name_en', 'title', 'description', 'description_en', 'filmpas', 'slug')
         widgets ={
             'slug':forms.HiddenInput(attrs={'readonly':'readonly','hidden':'hidden'}),
         }
         labels = {
             'title':_('*review title'),'description':_('*review description'),'description_en':_('*review description en'),
-            'filmpas':_('review preview'),'name':'*review name','slug':'',
+            'filmpas':_('review preview'),'name':_('*review name'),'name en':_('*review name en'),'slug':'',
         }
         error_messages = {
             'title':{'required':_('this is fields required'),'max_length':_("this is field maximum character is 200")},

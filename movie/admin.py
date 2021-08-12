@@ -16,11 +16,11 @@ from .models import (
 @admin.register(Movie)
 class AdminMovie(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
-    list_filter = ('title','name', 'slug', 'gener','date', 'ratin')
-    list_display = ('name', 'title', 'slug', 'gener', 'choice', 'awatar')
-    search_fields = ('name', 'title', 'slug', 'director')
+    list_filter = ('title','name', 'naem_en','slug', 'gener','date', 'ratin')
+    list_display = ('name', 'name_en','title', 'slug', 'gener', 'choice', 'awatar')
+    search_fields = ('name', 'name_en','title', 'slug', 'director')
     fieldsets = (
-        (_('Information'), {'fields':('name', 'title', 'slug', 'gener', 'gener_en')}),
+        (_('Information'), {'fields':('name','name_en', 'title', 'slug', 'gener', 'gener_en')}),
         (_('Description'),{'fields':('description', 'description_en')}),
         (_('Data'),{'fields':('awatar','image','filmpas','film1080','filme720','film480','subtitle')}),
         (_('Information Movie'),{'fields':('date', 'ratin', 'awards', 'time', 'choice', 'category')}),
@@ -92,11 +92,11 @@ class AdminSerialSession(admin.ModelAdmin):
 @admin.register(Serial)
 class AdminSerial(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
-    list_filter = ('title','name', 'slug', 'gener','date', 'ratin')
-    list_display = ('name', 'title', 'slug', 'gener', 'gener_en', 'awatar')
-    search_fields = ('name', 'title', 'slug', 'director')
+    list_filter = ('title','name', 'name_en','slug', 'gener','date', 'ratin')
+    list_display = ('name', 'name_en','title', 'slug', 'gener', 'gener_en', 'awatar')
+    search_fields = ('name', 'name_en','title', 'slug', 'director')
     fieldsets = (
-        (_('Information'), {'fields':('name', 'title', 'slug', 'gener', 'gener_en')}),
+        (_('Information'), {'fields':('name', 'name_en', 'title', 'slug', 'gener', 'gener_en')}),
         (_('Description'),{'fields':('description', 'description_en')}),
         (_('Data'),{'fields':( 'image', 'filmpas')}),
         (_('Information Movie'),{'fields':('date', 'ratin', 'awards', 'time', 'choice', 'category')}),
@@ -115,10 +115,10 @@ class AdminSerial(admin.ModelAdmin):
 @admin.register(Review)
 class AdminReview(admin.ModelAdmin):
     prepopulated_fields = {'slug':('title',)}
-    list_display = ('name','title','slug', 'id','is_for','choice', 'awatar')
-    list_filter = ('name','title', 'slug', 'id','is_for', 'choice')
+    list_display = ('name','name_en','title','slug', 'id','is_for','choice', 'awatar')
+    list_filter = ('name','name_en','title', 'slug', 'id','is_for', 'choice')
     fieldsets = (
-        (_('Information'),{'fields':('name','title','slug','description','description_en','choice','filmpas')}),
+        (_('Information'),{'fields':('name','name_en','title','slug','description','description_en','choice','filmpas')}),
         (_('Generic'),{'fields':('content_type','object_id','is_for')})
     )   
     def awatar(self, obj):
