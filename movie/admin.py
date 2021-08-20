@@ -9,7 +9,8 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (
                 Category, ContactUs, Movie,
                 Save, Serial, SerialFilms, User,
-                SerialSession, Review, SessionUser
+                SerialSession, Review, SessionUser, 
+                HistoryPaid
             )
 
 
@@ -188,5 +189,12 @@ class AdminSave(admin.ModelAdmin):
         
     def has_add_permission(self, request, obj=None):
         return False
-        
+
+
+@admin.register(HistoryPaid)
+class AdminPaid(admin.ModelAdmin):
+    list_display = ('date','user', 'code')
+    filter = ('user', 'date')
+    
+
 admin.site.register(Category)

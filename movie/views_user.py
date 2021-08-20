@@ -10,12 +10,14 @@ def user(request):
     pk = request.user.pk
     user = get_object_or_404(User, pk=pk)
     information = user.sessions.all()
+    paid_history = user.history_paid.all()
     saves = Save.objects.filter(user = request.user)
 
     context = {
         'user':user,
         'informations':information,
         'saves':saves,
+        'paids':paid_history,
     }
 
     return render(request, 'publick/user.html', context)

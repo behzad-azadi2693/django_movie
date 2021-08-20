@@ -18,32 +18,51 @@
 					<a href="{% url 'movie:index' %}">خانه</a>
 					<span> پروفایل</span>
 				</div>
-				<div class="content" style="direction: rtl; float: right;" >
+				<div class="content" style="direction: rtl;" >
                 
 				    <h3> <small> شماره موبایل:</small> {{ request.user.phone_number }} </h3>
-                    <table style="direction: rtl;">
-                        <tr>
-                          <th>تاریخ ورود</th>
-                          <th>نام سیستم</th>
-                          <th>نام دستگاه</th>
-                          <th>مدیریت دستگاه</th>
-                        </tr>
-                        {% for user in informations %}
-                        <tr>
-                          <td>{{user.date_joiin|date:"Y-m-d"}}</td>
-                          <td>{{user.os}}</td>
-                          <td>{{user.device}}</td>
-                          <td>
-                              <form action="{% url 'movie:remove_session'%}" method="POST">
-                                  {% csrf_token %}
-                                  <input type="password" name="key" value="{{user.session_key}}" readonly hidden>
-                                  <input type="submit" value="حذف این دستگاه" name="" id="">
-                              </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </table> 
-				
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table style="direction: rtl;" class="col-md-12">
+                                <tr>
+                                  <th>تاریخ ورود</th>
+                                  <th>نام سیستم</th>
+                                  <th>نام دستگاه</th>
+                                  <th>مدیریت دستگاه</th>
+                                </tr>
+                                {% for user in informations %}
+                                <tr>
+                                  <td>{{user.date_joiin|date:"Y-m-d"}}</td>
+                                  <td>{{user.os}}</td>
+                                  <td>{{user.device}}</td>
+                                  <td>
+                                      <form action="{% url 'movie:remove_session'%}" method="POST">
+                                          {% csrf_token %}
+                                          <input type="password" name="key" value="{{user.session_key}}" readonly hidden>
+                                          <input type="submit" value="حذف این دستگاه" name="" id="">
+                                      </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table> 
+                        </div>
+                        <div class="col-md-6">
+                            <table style="direction: rtl;"class="col-md-12">
+                                <tr>
+                                  <th>تاریخ پرداخت</th>
+                                  <th>مبلغ پرداختی</th>
+                                  <th>شناسه پرداخت</th>
+                                </tr>
+                                {% for paid in paids %}
+                                <tr>
+                                  <td>{{paid.date|date:"Y-m-d"}}</td>
+                                  <td>{{paid.price}}</td>
+                                  <td>{{paid.code}}</td>
+                                </tr>
+                                {% endfor %}
+                            </table> 
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</div> <!-- .container -->
@@ -82,30 +101,51 @@
 				</div>
 				<div class="content">
                     <h3> <small> your number:</small> {{ request.user.phone_number }} </h3>
-                <table>
-                    <tr>
-                      <th>date join</th>
-                      <th>os name</th>
-                      <th>device name</th>
-                      <th>management device</th>
-                    </tr>
-                    {% for user in informations %}
-                    <tr>
-                      <td>{{user.date_joiin|date:"d-m-Y"}}</td>
-                      <td>{{user.os}}</td>
-                      <td>{{user.device}}</td>
-                      <td>
-                          <form action="{% url 'movie:remove_session'%}" method="POST">
-                              {% csrf_token %}
-                              <input type="password" name="key" value="{{user.session_key}}" readonly hidden>
-                              <input type="submit" value="delete this device" name="" id="">
-                          </form>
-                        </td>
-                    </tr>
-                    {% endfor %}
-
-                  </table> 
-				</div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <table>
+                                <tr>
+                                  <th>date join</th>
+                                  <th>os name</th>
+                                  <th>device name</th>
+                                  <th>management device</th>
+                                </tr>
+                                {% for user in informations %}
+                                <tr>
+                                  <td>{{user.date_joiin|date:"d-m-Y"}}</td>
+                                  <td>{{user.os}}</td>
+                                  <td>{{user.device}}</td>
+                                  <td>
+                                      <form action="{% url 'movie:remove_session'%}" method="POST">
+                                          {% csrf_token %}
+                                          <input type="password" name="key" value="{{user.session_key}}" readonly hidden>
+                                          <input type="submit" value="delete this device" name="" id="">
+                                      </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                              </table> 
+                        </div>
+                        <div class="col-md-6">
+                            <div class="col-md-6">
+                                <table style="direction: rtl;"class="col-md-12">
+                                    <tr>
+                                      <th>date price</th>
+                                      <th>amount of money</th>
+                                      <th>Payment code</th>
+                                    </tr>
+                                    {% for paid in paids %}
+                                    <tr>
+                                      <td>{{paid.date|date:"Y-m-d"}}</td>
+                                      <td>{{paid.price}}</td>
+                                      <td>{{paid.code}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			</div>
 		</div> <!-- .container -->
         <br>

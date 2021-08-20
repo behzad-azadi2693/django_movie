@@ -2,7 +2,7 @@
 import json
 import requests
 import datetime
-from .models import User
+from .models import User, HistoryPaid
 from django.shortcuts import redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 
@@ -57,6 +57,7 @@ def verify(request):
                 user = User.objects.get(phone_number = request.user.phone_number)
                 user.date_paid = datetime.now()
                 user.save()
+                HistoryPaid.objects.create(user = request.user, date= datetime.datetime.now() , price =amount , code=req.json()['data']['ref_id'])
                 return HttpResponse('Transaction success.\nRefID: ' + str(
                     req.json()['data']['ref_id']
                 ))

@@ -1,7 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from config.settings import USE_I18N
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from django.contrib.sessions.models import Session
 from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
@@ -317,3 +317,18 @@ class SessionUser(models.Model):
         verbose_name = _('session user device')        
         verbose_name_plural = _("ssessions user devices")
         ordering = ('-id',)
+
+
+class HistoryPaid(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING, related_name='history_paid', verbose_name=_('history paid'))
+    date = models.DateTimeField(verbose_name=_('date paid'))
+    price = models.PositiveIntegerField(verbose_name=_('amount of price'))
+    code = models.CharField(max_length=150, verbose_name=_('payment code'))
+
+    class Meta:
+        verbose_name = _('history user paid')        
+        verbose_name_plural = _("histories user paid")
+        ordering = ('-id',)
+
+    def __str__(self):
+        return self.date 
