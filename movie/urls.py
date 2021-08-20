@@ -1,7 +1,10 @@
+from os import name
 from django.urls import path
 from django.urls.conf import include
 from .views_signin import signout,phone,sms
 from .views_cart import verify,send_request
+from .sitemaps import MovieSitemap, SerialSitemap
+from django.contrib.sitemaps.views import sitemap
 from .views_user import user,  save_serial, save_movie, remove_session
 from .views_create import (
                 create_review_movie, create_review_serial, admin_create,
@@ -22,6 +25,12 @@ from .views import (
 
 
 app_name = 'movie'
+
+
+sitemaps = {
+    'movie':MovieSitemap,
+    'serial':SerialSitemap,
+}
 
 create_urlpatters = [
     path('', admin_create, name='create'),
@@ -65,6 +74,7 @@ urlpatterns = [
     path('collection/', collection, name='collection'),
     path('session/<str:slug>/',session , name='session'),
     path('remove_session/',remove_session, name = "remove_session"),
+    path('sitemap/', sitemap, {'sitemaps':sitemaps}, name="sitemap"),
     path('change_language/',change_language, name='change_language'),
     path('serial/singel/<str:slug>/', serial_single, name='serial_single'),
     path('serial_singlle/<str:slug>/', serial_single, name='serial_single'),

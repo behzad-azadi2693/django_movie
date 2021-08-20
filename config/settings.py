@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'movie.apps.MovieConfig',
     #3rd
     'django_user_agents',
+    'django.contrib.sitemaps',
+
 ]
 
 MIDDLEWARE = [
