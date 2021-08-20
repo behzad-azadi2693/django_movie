@@ -19,6 +19,17 @@
 				</div>
 			</div>
 		</div> <!-- .container -->
+		<br>
+		<div class="container" >
+			<div class="col-md-6" style="float: right;">
+				<form action="{% url 'movie:send_email' %}"  class="contact-form" method="POST">
+					{% csrf_token %}
+					<input type="text" name="subject" class="email" placeholder="موضوع ایمیل...">
+					<textarea type="text" name="message" class="message" placeholder="پیغام را واردن کنید..."></textarea>
+					<input type="submit" value="ارسال ایمیل" style="float: left;">
+				</form>
+			</div>
+		</div> <!-- .container -->
 	</main>
 </div>
 {% endif %}
@@ -38,6 +49,17 @@
 			  <p><a href="{% url 'movie:create_serial' %}">Create serial</a></p>
 			  <p><a href="{% url 'movie:create_category' %}">Create category</a></p>
 				</div>
+			</div>
+		</div> <!-- .container -->
+		<br>
+		<div class="container" >
+			<div class="col-md-6">
+				<form action="{% url 'movie:send_email' %}"  class="contact-form" method="POST">
+					{% csrf_token %}
+					<input type="text" name="subject" class="email" placeholder="subject...">
+					<textarea type="text" name="message" class="message" placeholder="message..."></textarea>
+					<input type="submit" value="send email">
+				</form>
 			</div>
 		</div> <!-- .container -->
 	</main>

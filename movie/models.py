@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.db import models
 from django.urls import reverse
 from config.settings import USE_I18N
@@ -332,3 +333,27 @@ class HistoryPaid(models.Model):
 
     def __str__(self):
         return self.date 
+
+
+class NewsLetters(models.Model):
+    email = models.EmailField(max_length=300, verbose_name=_('email user'))
+
+    class Meta:
+        verbose_name = _('news letter')
+        verbose_name_plural = _('news letters')
+
+    def __str__(self):
+        return self.email
+
+
+class MessagesSending(models.Model):
+    subject = models.CharField(max_length=300, verbose_name=_('subject email'))
+    date = models.DateTimeField(verbose_name=_('date sendig email'))
+    messages = models.TextField(verbose_name=_('message in email'))
+    
+    class Meta:
+      verbose_name = _('messages sending')
+      verbose_name_plural = _('messages sendings')
+  
+    def __str__(self):
+      return self.subject

@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+from django.core.checks.messages import Debug
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -159,6 +161,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+#this is for translate 
 LOCALE_PATHS = ( os.path.join(BASE_DIR, 'locale'), )
 
 
@@ -187,3 +191,20 @@ AUTH_USER_MODEL = 'movie.User'
 AUTHENTICATION_BACKEND = (
     'movie.authentiacte.PhoneLoginBackend',
 )
+
+
+#settings for email
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = 'youremail@gmail.com'
+    EMAIL_HOST_PASSWORD = 'email_password'
+    EMAIL_PORT = 587
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_HOST_USER = 'youremail@gmail.com'
+    EMAIL_HOST_PASSWORD = 'email_password'
+    EMAIL_PORT = 587

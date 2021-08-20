@@ -103,7 +103,7 @@ def sms(request):
                     messages.error(request, _("The password entered is incorrect"), 'error')
             else:
                 form = PasswordSms(request.POST)
-                messages.warning(request,_("please chek field for error"))
+                messages.warning(request,_("please chek field for error"),'error')
                 context = {
                     'form':form,
                 }

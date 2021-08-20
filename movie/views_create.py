@@ -1,11 +1,16 @@
+import datetime
 from django.contrib import messages
-from django.template.defaultfilters import slugify
-from django.template.defaultfilters import slugify
+from django.core.mail import send_mail
+from django.http.response import BadHeaderError
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Movie,Serial,SerialFilms,SerialSession,Review, Category
+from .models import (
+            Movie,Serial,SerialFilms,
+            SerialSession,Review, Category,
+            NewsLetters, MessagesSending,
+            )
 from .forms import (
             FormMovie,FormSerialSession, FormSerial,
             FormCategory,FormSerialFilm,FormSerialFilm,
@@ -225,3 +230,56 @@ def create_review_serial(request):
 
 
 
+
+def email(request):
+    if request.method == 'POST':
+        path = request.POST.get('next')
+        email = request.POST.get('email')
+        email_has = NewsLetters.objects.filter(email=email)
+        if email_has:
+            messages.warning(request, _('email is exist '), 'error')
+            return redirect(path)
+
+        if email:
+            NewsLetters.objects.create(email=request.POST.get('email'))
+            messages.success(request, _('Your email has been successfully registered'), 'success')
+            return redirect(path)
+
+    messages.warning(request,_('please full the input with your email'))
+    return redirect('movie:index')
+
+
+@user_passes_test(user_admin)
+@login_required
+def send_email(request):
+    if request.method == 'POST':
+        subject = request.POST.get('subject') or None
+        date = datetime.datetime.now()
+        message = request.POST.get('message') or None
+        if subject is not None and message is not None:
+            MessagesSending.objects.create(subject = subject, date=date, messages=message)
+
+            receiver = []
+            for user in NewsLetters.objects.all():
+                receiver.append(user.email)
+
+            try:
+                send_mail(
+                    subject,
+                    message,
+                    'FreeFilm Site',
+                    receiver,
+                    fail_silently=False,
+                )
+                
+                messages.success(request,_('email sendig successfully'), 'succsess')
+                return redirect('movie:create')
+
+            except BadHeaderError:
+                messages.warning(request,_('email not sendig successfully'),'error')
+                return redirect('movie:create')
+        else:
+            messages.warning(request,_('please check fields all full'), 'error')
+            return redirect('movie:create')
+
+    return redirect('movie:create')

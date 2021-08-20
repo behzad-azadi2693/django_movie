@@ -130,8 +130,10 @@
             <div class="col-md-2">
                 <div class="widget">
                     <h3 class="widget-title">Newsletter</h3>
-                    <form action="#" class="subscribe-form">
-                        <input type="text" placeholder="Email Address">
+                    <form action="{% url 'movie:email' %}" method="POST" class="subscribe-form">
+                        {% csrf_token %}
+                        <input name="next" type="hidden" readonly hidden value="{{ request.get_full_path }}" />
+                        <input type="text" name="email" placeholder="Email Address">
                     </form>
                 </div>
             </div>

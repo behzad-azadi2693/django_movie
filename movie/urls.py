@@ -5,11 +5,11 @@ from .views_signin import signout,phone,sms
 from .views_cart import verify,send_request
 from .sitemaps import MovieSitemap, SerialSitemap
 from django.contrib.sitemaps.views import sitemap
-from .views_user import user,  save_serial, save_movie, remove_session
+from .views_user import user, save_serial, save_movie, remove_session
 from .views_create import (
                 create_review_movie, create_review_serial, admin_create,
                 create_movie, create_category, create_related_serial,
-                create_serial, create_session,
+                create_serial, create_session,email, send_email
             )
 from .views_edit import (
                 edit_review, edit_serial, edit_session, 
@@ -20,7 +20,7 @@ from .views import (
                     serial, serial_single, review, session,
                     contact, about, search, index,
                     collection, film, singel_review,
-                    change_language
+                    change_language,
                 )
 
 
@@ -58,9 +58,10 @@ save_urlpatterns = [
 ]
 
 urlpatterns = [
-    path('sms/',sms , name='sms'),
     path('', index, name='index'),
+    path('sms/',sms , name='sms'),
     path('user/',user , name='user'),
+    path('email/', email, name='email'),   
     path('about/', about, name='about'),
     path('phone/',phone , name='phone'),
     path('review/', review, name='review'),
@@ -72,6 +73,7 @@ urlpatterns = [
     path('request/', send_request, name='request'),
     path('serial/<str:slug>/', serial, name='serial'),
     path('collection/', collection, name='collection'),
+    path('send_email/', send_email, name='send_email'),   
     path('session/<str:slug>/',session , name='session'),
     path('remove_session/',remove_session, name = "remove_session"),
     path('sitemap/', sitemap, {'sitemaps':sitemaps}, name="sitemap"),

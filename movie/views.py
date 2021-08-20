@@ -1,3 +1,4 @@
+import datetime
 from itertools import chain
 from django.db.models import Q
 from django.conf import settings
@@ -11,7 +12,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import ( 
                     Movie, ContactUs, Serial, SerialFilms,
-                    SerialSession, Review
+                    SerialSession, Review, NewsLetters,
+                    MessagesSending,
                 )
 
 
@@ -358,3 +360,5 @@ def review(request):
     }
 
     return render(request, 'review/review.html', context)
+
+    

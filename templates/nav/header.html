@@ -58,13 +58,13 @@
                 <li class="menu-item {% if request.path == contact %}current-menu-item{% endif %}"><a href="{{contact}}">ارتباط با ما</a></li>
                 <li class="menu-item {% if request.path == about %}current-menu-item{% endif %}"><a href="{{about}}">درباره ما</a></li>
                 {% if request.user.is_authenticated %}
-                    <li class="menu-item {% if request.path == admincreate %}current-menu-item{% endif %}"><a href="{{admincreate}}">ادمین کنترل </a></li>
-                {% endif %}
-                {% if request.user.is_authenticated %}
                     <li class="menu-item {% if request.path == user %}current-menu-item{% endif %}"><a href="{{user}}">پروفایل</a></li>
                     <li class="menu-item {% if request.path == logout %}current-menu-item{% endif %}"><a href="{{logout}}">خروج</a></li>
                 {% else %}
                     <li class="menu-item {% if request.path == phone %}current-menu-item{% endif %}"><a href="{{phone}}">ورود</a></li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                    <li class="menu-item {% if request.path == admincreate %}current-menu-item{% endif %}"><a href="{{admincreate}}">ادمین کنترل </a></li>
                 {% endif %}
             </ul> <!-- .menu -->
             <br><br>
@@ -126,14 +126,14 @@
                 <li class="menu-item {% if request.path == review %}current-menu-item{% endif %}"><a href="{{review}}">Review</a></li>
                 <li class="menu-item {% if request.path == contact %}current-menu-item{% endif %}"><a href="{{contact}}">Contact us</a></li>
                 <li class="menu-item {% if request.path == about %}current-menu-item{% endif %}"><a href="{{about}}">About us</a></li>
-                {% if request.user.is_admin %}
-                    <li class="menu-item {% if request.path == admincreate %}current-menu-item{% endif %}"><a href="{{admincreate}}">Admin control </a></li>
-                {% endif %}
                 {% if request.user.is_authenticated %}
                     <li class="menu-item {% if request.path == user %}current-menu-item{% endif %}"><a href="{{user}}">Profile</a></li>
                     <li class="menu-item {% if request.path == logout %}current-menu-item{% endif %}"><a href="{{logout}}">Logout</a></li>
                 {% else %}
                     <li class="menu-item {% if request.path == phone %}current-menu-item{% endif %}"><a href="{{phone}}">sign in</a></li>
+                {% endif %}
+                {% if request.user.is_admin %}
+                    <li class="menu-item {% if request.path == admincreate %}current-menu-item{% endif %}"><a href="{{admincreate}}">Admin control </a></li>
                 {% endif %}
             </ul> <!-- .menu -->
             <br><br>

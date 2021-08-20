@@ -10,7 +10,7 @@ from .models import (
                 Category, ContactUs, Movie,
                 Save, Serial, SerialFilms, User,
                 SerialSession, Review, SessionUser, 
-                HistoryPaid
+                HistoryPaid, NewsLetters, MessagesSending
             )
 
 
@@ -195,6 +195,11 @@ class AdminSave(admin.ModelAdmin):
 class AdminPaid(admin.ModelAdmin):
     list_display = ('date','user', 'code')
     filter = ('user', 'date')
-    
+
+@admin.register(MessagesSending)
+class AdminMessageSending(admin.ModelAdmin):
+    list_display = ('date','subject')
+    list_filter = ('date', 'subject')
 
 admin.site.register(Category)
+admin.site.register(NewsLetters)
