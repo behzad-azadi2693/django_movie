@@ -1,5 +1,6 @@
 
 from .models import Serial, Movie, Save, User
+from django.contrib.sessions.models import Session
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -8,12 +9,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 def user(request):
     pk = request.user.pk
     user = get_object_or_404(User, pk=pk)
+    information = user.sessions.all()
     saves = Save.objects.filter(user = request.user)
 
     context = {
         'user':user,
-        'ip':request.META['REMOTE_ADDR'],
-        'info':request.META['HTTP_USER_AGENT'],
+        'informations':information,
         'saves':saves,
     }
 
@@ -57,3 +58,16 @@ def save_movie(request, slug):
         market.save()
 
     return redirect(movie)
+
+
+def remove_session(request):
+    if request.method == 'POST':
+        key = request.POST.get('key')
+        try:
+            session = Session.objects.get(session_key = key)
+            session.delete()
+            return redirect('movie:user')
+        except:
+            return redirect('movie:user')
+    else:           
+        return redirect('movie:user')

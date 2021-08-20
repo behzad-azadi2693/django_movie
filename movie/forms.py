@@ -13,19 +13,19 @@ from .models import Category, User, Movie, Serial, SerialFilms, SerialSession, R
 
 
 class UserCreationForm(forms.ModelForm):
-    password = forms.CharField(label='password', widget=forms.PasswordInput)
-    password_confierm = forms.CharField(label='password', widget=forms.PasswordInput)
+    password = forms.CharField(label=_('password'), widget=forms.PasswordInput)
+    password_confierm = forms.CharField(label=_('password_confierm'), widget=forms.PasswordInput)
 
     class Meta:
         models = User
-        fields = ('phone_number', 'date_paid')
+        fields = ('phone_number', 'date_paid', 'password', 'password_confierm', 'otp', 'otp_create_time')
 
-    def clean_password2(self):
+    def clean_password_confierm(self):
         cd = self.cleaned_data
-        if cd['password'] and cd['password_confirm'] and cd['password'] != cd['password_confirm']:
+        if cd['password'] and cd['password_confierm'] and cd['password'] != cd['password_confierm']:
             raise forms.ValidationError(_("password and confirm password must be match "))
 
-        return cd['password_confirm']
+        return cd['password_confierm']
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -39,7 +39,7 @@ class UserChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
     class Meta:
         models = User
-        fields = ('phone_number', 'date_paid', 'password')
+        fields = ('phone_number', 'date_paid', 'password','otp', 'otp_create_time')
 
     def clean_password(self):
         return self.initial['password']
@@ -71,6 +71,11 @@ class UserPhoneForm(forms.Form):
         widget=forms.TextInput(attrs={'placeholder':_("phone number ..."), 'class':'name', 'type':'number', 'value':None})
     )
 
+    def clean_phone_number(self):
+        cd = self.cleaned_data
+        if cd['phone_number'] is None or cd['phone_number'] == '':
+            raise forms.ValidationError(_('please check phone number'))
+        return cd['phone_number']
 
 class PasswordSms(forms.Form):
     password = forms.CharField(
@@ -81,7 +86,11 @@ class PasswordSms(forms.Form):
         widget=forms.TextInput(attrs={'placeholder':_("password sent ..."), 'class':'email', 'type':'number', 'value':None})
     )
 
-
+    def clean_password(self):
+        cd = self.cleaned_data
+        if cd['password'] is None or cd['password'] == '':
+            raise forms.ValidationError(_('please check sms number'))
+        return cd['password']
 
 
 class FormMovie(forms.ModelForm):

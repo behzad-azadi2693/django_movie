@@ -2,7 +2,7 @@ from django.urls import path
 from django.urls.conf import include
 from .views_signin import signout,phone,sms
 from .views_cart import verify,send_request
-from .views_user import user,  save_serial, save_movie
+from .views_user import user,  save_serial, save_movie, remove_session
 from .views_create import (
                 create_review_movie, create_review_serial, admin_create,
                 create_movie, create_category, create_related_serial,
@@ -64,6 +64,7 @@ urlpatterns = [
     path('serial/<str:slug>/', serial, name='serial'),
     path('collection/', collection, name='collection'),
     path('session/<str:slug>/',session , name='session'),
+    path('remove_session/',remove_session, name = "remove_session"),
     path('change_language/',change_language, name='change_language'),
     path('serial/singel/<str:slug>/', serial_single, name='serial_single'),
     path('serial_singlle/<str:slug>/', serial_single, name='serial_single'),

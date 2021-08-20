@@ -1,13 +1,9 @@
 from django.db import models
-from django.db.models.fields import related
 from django.urls import reverse
 from config.settings import USE_I18N
 from datetime import datetime, timedelta
-from django.db.models.aggregates import Min
-from django.db.models.fields import TextField
-from django.db.models.expressions import OrderBy
+from django.contrib.sessions.models import Session
 from django.core.validators import RegexValidator
-from django.db.models.fields.related import ForeignKey
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
@@ -34,6 +30,8 @@ class User(AbstractBaseUser,PermissionsMixin):
     date_paid = models.DateTimeField(null=True, blank=True, default=None)
     phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=_("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."))
     phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True, verbose_name=_("your phone number") ) # validators should be a list
+    otp = models.PositiveIntegerField(null=True, blank=True)
+    otp_create_time = models.DateTimeField(null=True, blank=True)
 
     save = GenericRelation('Save')
     
@@ -63,13 +61,15 @@ class User(AbstractBaseUser,PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
-
+        
+    @property
     def is_staff(self):
         return self.is_admin
-        
-    def save (self, *args, **kwargs):
+    
+
+    def save(self, *args, **kwargs):
         """saving to DB disabled"""
-        pass
+        super(User, self).save(*args, **kwargs)
 
 class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("category name"))
@@ -121,7 +121,8 @@ class Movie(models.Model):
     class Meta:
         verbose_name = _("movie table")
         verbose_name_plural = _("movies table")
-        
+        ordering = ('-id',)
+
     def get_absolute_url(self):
         return reverse('movie:film', args=(self.slug,))
     
@@ -145,6 +146,7 @@ class ContactUs(models.Model):
     class Meta:
         verbose_name = _("message table")
         verbose_name_plural = _("messages table")
+        ordering = ('-id',)
 
 
     def __str__(self) -> str:
@@ -188,6 +190,7 @@ class Serial(models.Model):
     class Meta:
         verbose_name = _("serial table")
         verbose_name_plural = _("serials table")
+        ordering = ('-id',)
 
     def get_absolute_url(self):
         return reverse('movie:serial', args=(self.slug,))
@@ -208,6 +211,7 @@ class SerialSession(models.Model):
     slug = models.SlugField(allow_unicode=True, verbose_name=_("serial session slug"))
     serial = models.ForeignKey(Serial, related_name='sessions_serial',on_delete=models.CASCADE)
     subtitle = models.FileField(upload_to='serial/trans/', null=True, blank=True, verbose_name=_("serial subtitle"))
+    ordering = ('-id',)
 
     class Meta:
         verbose_name = 'serial session table'
@@ -237,6 +241,7 @@ class SerialFilms(models.Model):
     class Meta:
         verbose_name = 'serial related table'
         verbose_name_plural = 'serials related table'
+        ordering = ('-id',)
 
     def get_absulote_url(self):
         return reverse('movie:serial_single', args=(self.slug,))
@@ -271,6 +276,8 @@ class Review(models.Model):
     class Meta:
         verbose_name = _("review table")
         verbose_name_plural = _("reviews table")    
+        ordering = ('-id',)
+
     
     def get_absolute_url(self):
         return reverse('movie:singel_review', args=(self.slug,))
@@ -294,4 +301,19 @@ class Save(models.Model):
     class Meta:
         verbose_name = _("save table")
         verbose_name_plural = _("saves table")    
-    
+        ordering = ('-id',)
+
+
+class SessionUser(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sessions', verbose_name=_('user name'))
+    session_key = models.ForeignKey(Session, on_delete=models.CASCADE, verbose_name=_('session key'))
+    device = models.CharField(max_length=300, verbose_name=_('device name'))
+    os = models.CharField(max_length=300, verbose_name=_('os name'))
+    date_joiin = models.DateField(verbose_name=_('date join device'))
+    ip_device = models.GenericIPAddressField(verbose_name=_('ip address device'))
+
+
+    class Meta:
+        verbose_name = _('session user device')        
+        verbose_name_plural = _("ssessions user devices")
+        ordering = ('-id',)

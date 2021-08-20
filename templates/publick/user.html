@@ -1,20 +1,49 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
+{% block title %}
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+{% endblock %}
 {% block body %}
 {%if LANGUAGE_CODE == 'fa' %}
 <div id="site-content">
 	<main class="main-content">
 		<div class="container">
-			<div class="page" >
+			<div class="page" style="direction: rtl;">
 				<div class="breadcrumbs">
 					<a href="{% url 'movie:index' %}">خانه</a>
 					<span> پروفایل</span>
 				</div>
-				<div class="content" style="direction: ltr;">
-                {{ request.user.phone_number }} <br>
-				{{ ip }} <br>
-				{{ info }}
+				<div class="content" style="direction: rtl; float: right;" >
+                
+				    <h3> <small> شماره موبایل:</small> {{ request.user.phone_number }} </h3>
+                    <table style="direction: rtl;">
+                        <tr>
+                          <th>تاریخ ورود</th>
+                          <th>نام سیستم</th>
+                          <th>نام دستگاه</th>
+                          <th>مدیریت دستگاه</th>
+                        </tr>
+                        {% for user in informations %}
+                        <tr>
+                          <td>{{user.date_joiin|date:"Y-m-d"}}</td>
+                          <td>{{user.os}}</td>
+                          <td>{{user.device}}</td>
+                          <td>
+                              <form action="{% url 'movie:remove_session'%}" method="POST">
+                                  {% csrf_token %}
+                                  <input type="password" name="key" value="{{user.session_key}}" readonly hidden>
+                                  <input type="submit" value="حذف این دستگاه" name="" id="">
+                              </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table> 
+				
 				</div>
 			</div>
 		</div> <!-- .container -->
@@ -52,9 +81,30 @@
 					<span> Profile</span>
 				</div>
 				<div class="content">
-                {{ request.user.phone_number }} <br>
-				{{ ip }} <br>
-				{{ info }}
+                    <h3> <small> your number:</small> {{ request.user.phone_number }} </h3>
+                <table>
+                    <tr>
+                      <th>date join</th>
+                      <th>os name</th>
+                      <th>device name</th>
+                      <th>management device</th>
+                    </tr>
+                    {% for user in informations %}
+                    <tr>
+                      <td>{{user.date_joiin|date:"d-m-Y"}}</td>
+                      <td>{{user.os}}</td>
+                      <td>{{user.device}}</td>
+                      <td>
+                          <form action="{% url 'movie:remove_session'%}" method="POST">
+                              {% csrf_token %}
+                              <input type="password" name="key" value="{{user.session_key}}" readonly hidden>
+                              <input type="submit" value="delete this device" name="" id="">
+                          </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                  </table> 
 				</div>
 			</div>
 		</div> <!-- .container -->

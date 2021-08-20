@@ -35,7 +35,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    #local
     'movie.apps.MovieConfig',
+    #3rd
+    'django_user_agents',
 ]
 
 MIDDLEWARE = [
@@ -46,6 +49,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    #3rd
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -90,31 +95,31 @@ else:
             'PASSWORD': 'admin',
             'USER': 'admin',
             'PORT': 5432,
-            'HOST': 'postgres-container',
+            'HOST': 'postgres_container',
         }
     }
 
 
-if DEBUG:
-    CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/11",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        }
-    }
-else:
-    CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis-container/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-        },
-        }
-    }
+#if DEBUG:
+#    CACHES = {
+#    "default": {
+#        "BACKEND": "django_redis.cache.RedisCache",
+#        "LOCATION": "redis://127.0.0.1:6379/11",
+#        "OPTIONS": {
+#            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+#        },
+#        }
+#    }
+#else:
+#    CACHES = {
+#    "default": {
+#        "BACKEND": "django_redis.cache.RedisCache",
+#        "LOCATION": "redis://redis_container/1",
+#        "OPTIONS": {
+#            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+#        },
+#        }
+#    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -178,6 +183,5 @@ LOGIN_URL = 'movie:phone'
 AUTH_USER_MODEL = 'movie.User'
 
 AUTHENTICATION_BACKEND = (
-    'django.contrib.auth.backend.ModleBackend',
     'movie.authentiacte.PhoneLoginBackend',
 )

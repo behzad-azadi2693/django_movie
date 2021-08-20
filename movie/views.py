@@ -29,10 +29,11 @@ def change_language(request):
 def index(reauest):
     videos = cache.get('index_videos')
     if not videos:
-        videos = Movie.objects.all().order_by('-date')[:14]
+        videos = Movie.objects.all()[:14]
         if videos:
             cache.set('index_videos', videos, 60 * 60)
     
+    print(videos)
     serials = cache.get('index_serials')
     if not serials:
         serials = Serial.objects.all().order_by('-date')[:12]
@@ -319,7 +320,6 @@ def singel_review(request, slug):
 
 
 
-@login_required
 def review(request):
     review = cache.get('review')
     if not review:

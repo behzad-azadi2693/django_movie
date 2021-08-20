@@ -57,7 +57,7 @@
                 <li class="menu-item {% if request.path == review %}current-menu-item{% endif %}"><a href="{{review}}">نقد و بررسی</a></li>
                 <li class="menu-item {% if request.path == contact %}current-menu-item{% endif %}"><a href="{{contact}}">ارتباط با ما</a></li>
                 <li class="menu-item {% if request.path == about %}current-menu-item{% endif %}"><a href="{{about}}">درباره ما</a></li>
-                {% if request.user.is_admin %}
+                {% if request.user.is_authenticated %}
                     <li class="menu-item {% if request.path == admincreate %}current-menu-item{% endif %}"><a href="{{admincreate}}">ادمین کنترل </a></li>
                 {% endif %}
                 {% if request.user.is_authenticated %}

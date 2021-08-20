@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.utils.html import mark_safe
 from django.template.defaultfilters import title
+from django.contrib.sessions.models import Session
 from .forms import UserChangeForm, UserCreationForm
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.base_user import BaseUserManager
@@ -8,15 +9,17 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import (
                 Category, ContactUs, Movie,
                 Save, Serial, SerialFilms, User,
-                SerialSession, Review,
+                SerialSession, Review, SessionUser
             )
 
 
 
+admin.site.register(Session)
+
 @admin.register(Movie)
 class AdminMovie(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
-    list_filter = ('title','name', 'naem_en','slug', 'gener','date', 'ratin')
+    list_filter = ('title','name', 'name_en','slug', 'gener','date', 'ratin')
     list_display = ('name', 'name_en','title', 'slug', 'gener', 'choice', 'awatar')
     search_fields = ('name', 'name_en','title', 'slug', 'director')
     fieldsets = (
@@ -129,20 +132,35 @@ class AdminReview(admin.ModelAdmin):
         
     def has_add_permission(self, request, obj=None):
         return False
-        
+
+
+@admin.register(SessionUser)
+class AdminSessionUser(admin.ModelAdmin):
+    list_filter = ('user','id', 'date_joiin')
+    list_display = ('user','session_key', 'date_joiin')
+    
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_add_permission(self, request, obj=None):
+        return False    
+
+
 @admin.register(User)
 class AdminUser(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('phone_number','is_admin')
+    list_display = ('phone_number','is_admin', 'otp', 'otp_create_time')
     list_filter = ('is_admin', )
     fieldsets = ( #this is for form
         (_('Information'),{'fields':('phone_number','date_paid','password')}),
-        (_('personal info'),{'fields':('is_active',)}),
-        (_('permission'),{'fields':('is_admin', 'groups', 'user_permissions')}),
+        (_('personal info'),{'fields':('is_active','is_admin')}),
+        (_('otp information'),{'fields':('otp','otp_create_time')}),
+        (_('permission'),{'fields':('groups', 'user_permissions')}),
     )
     add_fieldsets = (#this is for add_form 
         (_('Information'),{'fields':('phone_number', 'password','password_confierm')}),
+        (_('otp information'),{'fields':('otp','otp_create_time')}),
         (_('Access'),{'fields':('is_active','is_admin', 'groups', 'user_permissions')})
     )
     search_fields = ('phone_number',)
