@@ -24,7 +24,7 @@
 			<div class="col-md-6" style="float: right;">
 				<form action="{% url 'movie:send_email' %}"  class="contact-form" method="POST">
 					{% csrf_token %}
-					<input type="text" name="subject" class="email" placeholder="موضوع ایمیل...">
+					<input type="text" name="subject" class="email" placeholder="موضوع ایمیل..." required="" maxlength="30" minlength="20">
 					<textarea type="text" name="message" class="message" placeholder="پیغام را واردن کنید..."></textarea>
 					<input type="submit" value="ارسال ایمیل" style="float: left;">
 				</form>

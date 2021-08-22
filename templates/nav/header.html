@@ -21,7 +21,7 @@
             <a id="branding" style="float: revert ;">
                 <img src="{% static 'images/logo.png' %}" alt="" class="logo">
                 <div class="logo-copy">
-                    <h1 class="site-title">FREE Film</h1>
+                    <h1>FILM-View</h1>
                 </div>
             </a> <!-- #branding -->
                     <small class="site-description">                       
@@ -89,7 +89,7 @@
             <a id="branding" style="float: revert ;">
                 <img src="{% static 'images/logo.png' %}" alt="" class="logo">
                 <div class="logo-copy">
-                    <h1 class="site-title">FREE Film</h1>
+                    <h1 >FILM-Veiw</h1>
                 </div>
 
             </a> <!-- #branding -->
@@ -132,7 +132,7 @@
                 {% else %}
                     <li class="menu-item {% if request.path == phone %}current-menu-item{% endif %}"><a href="{{phone}}">sign in</a></li>
                 {% endif %}
-                {% if request.user.is_admin %}
+                  {% if request.user.is_admin %}
                     <li class="menu-item {% if request.path == admincreate %}current-menu-item{% endif %}"><a href="{{admincreate}}">Admin control </a></li>
                 {% endif %}
             </ul> <!-- .menu -->

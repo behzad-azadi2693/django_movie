@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin.options import ModelAdmin
 from django.utils.html import mark_safe
 from django.template.defaultfilters import title
 from django.contrib.sessions.models import Session
@@ -14,11 +15,9 @@ from .models import (
             )
 
 
-
-admin.site.register(Session)
-
 @admin.register(Movie)
 class AdminMovie(admin.ModelAdmin):
+    date_hierarchy = 'date'
     prepopulated_fields = {'slug': ('title', )}
     list_filter = ('title','name', 'name_en','slug', 'gener','date', 'ratin')
     list_display = ('name', 'name_en','title', 'slug', 'gener', 'choice', 'awatar')
@@ -72,6 +71,7 @@ class AdminSerialFilm(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
+
 @admin.register(SerialSession)
 class AdminSerialSession(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title', )}
@@ -93,11 +93,13 @@ class AdminSerialSession(admin.ModelAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
+
 @admin.register(Serial)
 class AdminSerial(admin.ModelAdmin):
+    date_hierarchy = 'date'
     prepopulated_fields = {'slug': ('title', )}
     list_filter = ('title','name', 'name_en','slug', 'gener','date', 'ratin')
-    list_display = ('name', 'name_en','title', 'slug', 'gener', 'gener_en', 'awatar')
+    list_display = ('id','name', 'name_en','title', 'slug', 'gener', 'gener_en', 'awatar')
     search_fields = ('name', 'name_en','title', 'slug', 'director')
     fieldsets = (
         (_('Information'), {'fields':('name', 'name_en', 'title', 'slug', 'gener', 'gener_en')}),
@@ -115,6 +117,7 @@ class AdminSerial(admin.ModelAdmin):
         
     def has_add_permission(self, request, obj=None):
         return False
+
 
 @admin.register(Review)
 class AdminReview(admin.ModelAdmin):
@@ -149,9 +152,11 @@ class AdminSessionUser(admin.ModelAdmin):
 
 @admin.register(User)
 class AdminUser(BaseUserAdmin):
+    date_hierarchy = 'date_paid'
+    
     form = UserChangeForm
     add_form = UserCreationForm
-    list_display = ('phone_number','is_admin', 'otp', 'otp_create_time')
+    list_display = ('mobile','is_admin', 'is_active','otp', 'otp_create_time')
     list_filter = ('is_admin', )
     fieldsets = ( #this is for form
         (_('Information'),{'fields':('phone_number','date_paid','password')}),
@@ -173,6 +178,10 @@ class AdminUser(BaseUserAdmin):
     def make_admin(self, request, queryset):
         queryset.update(is_admin=True)
 
+    def mobile(self,obj):
+        return f'{obj.phone_number[:-7]}-{obj.phone_number[-7:-4]}-{obj.phone_number[-4:]}'
+
+
 @admin.register(Save)
 class AdminSave(admin.ModelAdmin):
     list_display=('user_saved','user','awatar',)
@@ -193,13 +202,22 @@ class AdminSave(admin.ModelAdmin):
 
 @admin.register(HistoryPaid)
 class AdminPaid(admin.ModelAdmin):
+    date_hierarchy = 'date'
     list_display = ('date','user', 'code')
     filter = ('user', 'date')
 
+
 @admin.register(MessagesSending)
 class AdminMessageSending(admin.ModelAdmin):
+    date_hierarchy = 'date'
     list_display = ('date','subject')
     list_filter = ('date', 'subject')
 
+
 admin.site.register(Category)
+
+
 admin.site.register(NewsLetters)
+
+
+admin.site.register(Session)

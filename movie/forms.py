@@ -143,8 +143,8 @@ class FormSerial(forms.ModelForm):
     ratin = forms.IntegerField(
         max_value=10,
         min_value=0,
-        label=_('movie ratin'),
-        required=False,
+        label=_('*serial ratin'),
+        required=True,
         error_messages=messages,
         help_text=_('input range of beetwean of 0-10')
     )
@@ -162,7 +162,7 @@ class FormSerial(forms.ModelForm):
             'name':_('*serial name'),'name_en':_('*serial name en'),'gener':_('*serial gener'),'gener_en':_('*serial gener en'),'title':_('*serial title'),
             'description':_('*serial description'),'description_en':_('*serial description en'),'director':_('serial director'),
             'writer':_('serial writer'),'stars':_('serial stars'),'time':_('serial time'),'date':_('*serial date'),
-            'awards':_('serial awards'),'choice':_('*serial choice'),'category':_('*serial category'),'ratin':_('serial ratin'),
+            'awards':_('serial awards'),'choice':_('*serial choice'),'category':_('*serial category'),'ratin':_('*serial ratin'),
             'image':_('*serial image'),'filmpas':_('*serial preview'),'slug':''
         }
         help_texts = {
@@ -179,6 +179,7 @@ class FormSerial(forms.ModelForm):
             'date':{'required':_('this is fields required'),},
             'category':{'required':_('this is fields required'),},
             'choice':{'required':_('this is fields required'),},
+            'ratin':{'required':_('this is fields required'),},
         }
 class FormSerialFilm(forms.ModelForm):
     class Meta:

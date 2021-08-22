@@ -267,7 +267,7 @@ def send_email(request):
                 send_mail(
                     subject,
                     message,
-                    'FreeFilm Site',
+                    'FILM-View Site',
                     receiver,
                     fail_silently=False,
                 )
