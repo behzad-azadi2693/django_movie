@@ -2,7 +2,8 @@
 import json
 import requests
 import datetime
-from .models import User, HistoryPaid
+from .models import HistoryPaid
+from accounts.models import User
 from django.shortcuts import redirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 

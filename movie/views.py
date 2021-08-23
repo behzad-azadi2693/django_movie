@@ -12,8 +12,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import ( 
                     Movie, ContactUs, Serial, SerialFilms,
-                    SerialSession, Review, NewsLetters,
-                    MessagesSending,
+                    SerialSession, Review, 
                 )
 
 

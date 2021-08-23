@@ -1,7 +1,6 @@
 from os import name
 from django.urls import path
 from django.urls.conf import include
-from .views_signin import signout,phone,sms
 from .views_cart import verify,send_request
 from .sitemaps import MovieSitemap, SerialSitemap
 from django.contrib.sitemaps.views import sitemap
@@ -59,14 +58,11 @@ save_urlpatterns = [
 
 urlpatterns = [
     path('', index, name='index'),
-    path('sms/',sms , name='sms'),
     path('user/',user , name='user'),
     path('email/', email, name='email'),   
     path('about/', about, name='about'),
-    path('phone/',phone , name='phone'),
     path('review/', review, name='review'),
     path('search/',search , name='search'),
-    path('logout/',signout , name='logout'),
     path('verify/', verify , name='verify'),
     path('contact/', contact, name='contact'),   
     path('film/<str:slug>/', film, name='film'),

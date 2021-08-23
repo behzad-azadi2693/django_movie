@@ -1,23 +1,17 @@
-import string
 import random
 from . import otp_check
+from .models import User
 from random import randint
 from django.conf import settings
 from django.contrib import messages
 from datetime import date, datetime
-from .models import Movie, User,SessionUser
+from movie.models import SessionUser
 from django.shortcuts import render, redirect
 from .forms import UserPhoneForm, PasswordSms
 from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
-
-
-def get_random_string(length):
-    letters = string.ascii_lowercase
-    result_str = ''.join(random.choice(letters) for i in range(length))
-    print("Random string of length", length, "is:", result_str)
 
 def phone(request):
     if request.user.is_authenticated:
@@ -39,7 +33,7 @@ def phone(request):
                 messages.info(request,_("A text message was sent to your number"), 'info')
                 return redirect('movie:sms')
             except User.DoesNotExist:
-                passwrd = get_random_string(8)
+                passwrd = 'Asdsfe3434932n#$2'
                 user = User.objects.create_user(phone_number = phone,  password = passwrd)
                 user.is_active = False
                 user.otp = otp

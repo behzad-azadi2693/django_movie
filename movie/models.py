@@ -1,76 +1,12 @@
-from django.contrib import messages
 from django.db import models
 from django.urls import reverse
-from config.settings import USE_I18N
-from datetime import date, datetime, timedelta
+from accounts.models import User
 from django.contrib.sessions.models import Session
-from django.core.validators import RegexValidator
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.fields import GenericForeignKey, GenericRelation
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-# Create your models here.
-
-class  MyUserManager(BaseUserManager):
-    def create_user(self, phone_number, password):
-        if not phone_number:
-            raise ValueError(_("please insert phone number"))
-        user = self.model(phone_number=phone_number)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user 
-
-    def create_superuser(self, phone_number, password):
-        user = self.create_user(phone_number=phone_number, password=password)
-        user.is_admin=True
-        user.save(using=self._db)
-        return user
-
-class User(AbstractBaseUser,PermissionsMixin):
-    date_paid = models.DateTimeField(null=True, blank=True, default=None)
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message=_("Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed."))
-    phone_number = models.CharField(validators=[phone_regex], max_length=17, unique=True, verbose_name=_("your phone number") ) # validators should be a list
-    otp = models.PositiveIntegerField(null=True, blank=True)
-    otp_create_time = models.DateTimeField(null=True, blank=True)
-
-    save = GenericRelation('Save')
-    
-
-    is_active = models.BooleanField(default=True, verbose_name=_("user is active"))
-    is_admin = models.BooleanField(default=False, verbose_name=_("user is admin"))
-    
-    objects=MyUserManager()
-    USERNAME_FIELD = 'phone_number'
-
-    def __str__(self) -> str:
-        return self.phone_number
-
-    def is_paid(self):
-        if self.date_paid:
-            after_month = self.date_paid + timedelta(days=31)
-            today = datetime.now()
-            if after_month.date()>today.date():
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
-        
-    @property
-    def is_staff(self):
-        return self.is_admin
-    
-
-    def save(self, *args, **kwargs):
-        """saving to DB disabled"""
-        super(User, self).save(*args, **kwargs)
+# Create your models here
 
 class Category(models.Model):
     name = models.CharField(max_length=200, verbose_name=_("category name"))
@@ -78,6 +14,9 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name}-{self.name_en}'
+    
+    class Meta:
+        app_label = 'accounts'
 
 def path_save_movie(instance, filename):
     name = '/'.join(filter(None, (instance.name_en, filename)))
@@ -126,6 +65,7 @@ class Movie(models.Model):
         verbose_name = _("movie table")
         verbose_name_plural = _("movies table")
         ordering = ('-id',)
+        app_label = 'accounts'
 
     def get_absolute_url(self):
         return reverse('movie:film', args=(self.slug,))
@@ -181,6 +121,7 @@ class Serial(models.Model):
         verbose_name = _("serial table")
         verbose_name_plural = _("serials table")
         ordering = ('-id',)
+        app_label = 'accounts'
 
     def get_absolute_url(self):
         return reverse('movie:serial', args=(self.slug,))
@@ -209,6 +150,7 @@ class SerialSession(models.Model):
     class Meta:
         verbose_name = 'serial session table'
         verbose_name_plural = 'serials session table'
+        app_label = 'accounts'
 
     def get_absulote_url(self):
         return reverse('movie:serial_session', args=(self.slug,))
@@ -240,6 +182,7 @@ class SerialFilms(models.Model):
         verbose_name = 'serial related table'
         verbose_name_plural = 'serials related table'
         ordering = ('-id',)
+        app_label = 'accounts'
 
     def get_absulote_url(self):
         return reverse('movie:serial_single', args=(self.slug,))
@@ -279,6 +222,7 @@ class Review(models.Model):
         verbose_name = _("review table")
         verbose_name_plural = _("reviews table")    
         ordering = ('-id',)
+        app_label = 'accounts'
 
     
     def get_absolute_url(self):
@@ -304,6 +248,7 @@ class Save(models.Model):
         verbose_name = _("save table")
         verbose_name_plural = _("saves table")    
         ordering = ('-id',)
+        app_label = 'accounts'
 
 
 class SessionUser(models.Model):
@@ -319,6 +264,7 @@ class SessionUser(models.Model):
         verbose_name = _('session user device')        
         verbose_name_plural = _("ssessions user devices")
         ordering = ('-id',)
+        app_label = 'accounts'
 
 
 class HistoryPaid(models.Model):
@@ -331,6 +277,7 @@ class HistoryPaid(models.Model):
         verbose_name = _('history user paid')        
         verbose_name_plural = _("histories user paid")
         ordering = ('-id',)
+        app_label = 'accounts'
 
     def __str__(self):
         return self.date 
@@ -342,6 +289,7 @@ class NewsLetters(models.Model):
     class Meta:
         verbose_name = _('news letter')
         verbose_name_plural = _('news letters')
+        app_label = 'movue'
 
     def __str__(self):
         return self.email
@@ -353,9 +301,10 @@ class MessagesSending(models.Model):
     messages = models.TextField(verbose_name=_('message in email'))
     
     class Meta:
-      verbose_name = _('messages sending')
-      verbose_name_plural = _('messages sendings')
-  
+        verbose_name = _('messages sending')
+        verbose_name_plural = _('messages sendings')
+        app_label = 'movie'
+
     def __str__(self):
       return self.subject
 
@@ -372,7 +321,7 @@ class ContactUs(models.Model):
         verbose_name = _("message table")
         verbose_name_plural = _("messages table")
         ordering = ('-id',)
-
+        app_label = 'movie'
 
     def __str__(self) -> str:
         return f'{self.name}-{self.email}'

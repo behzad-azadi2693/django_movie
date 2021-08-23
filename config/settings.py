@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #local
     'movie.apps.MovieConfig',
+    'accounts',
     #3rd
     'django_user_agents',
     'django.contrib.sitemaps',
@@ -84,26 +85,40 @@ if DEBUG == True:
     ALLOWED_HOSTS = []
 
     DATABASES = {
-       'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+       'default': {},
+        'movie_db': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'movie.sqlite3',
+        },
+        'message_db':{
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'message.sqlite3',
         }
     }
 else:
     ALLOWED_HOSTS = ['freefilm.com', 'www.freefilm.com']
 
     DATABASES = {
-        'default': {
+        'default':{},
+        'movie_db': {
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'movie',
             'PASSWORD': 'admin',
             'USER': 'admin',
             'PORT': 5432,
             'HOST': 'postgres_container',
-        }
+        },
+        'message_db':{
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'message',
+            'PASSWORD': 'admin',
+            'USER': 'admin',
+            'PORT': 5432,
+            'HOST': 'postgres_container',
+        },
     }
 
-
+DATABASE_ROUTERS = ['db_routers.routers.MovieDb','db_routers.routers.MessageDb']
 #if DEBUG:
 #    CACHES = {
 #    "default": {
@@ -186,7 +201,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = 'movie:phone'
 
-AUTH_USER_MODEL = 'movie.User'
+AUTH_USER_MODEL='accounts.User'
 
 AUTHENTICATION_BACKEND = (
     'movie.authentiacte.PhoneLoginBackend',

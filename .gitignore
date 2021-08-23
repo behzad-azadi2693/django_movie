@@ -3,3 +3,4 @@ sbenv/
 __pycache__/
 media/
 static
+*.sqlite3
