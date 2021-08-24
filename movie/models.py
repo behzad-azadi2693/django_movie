@@ -289,7 +289,7 @@ class NewsLetters(models.Model):
     class Meta:
         verbose_name = _('news letter')
         verbose_name_plural = _('news letters')
-        app_label = 'movue'
+        app_label = 'movie'
 
     def __str__(self):
         return self.email

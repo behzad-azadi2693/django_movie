@@ -4,7 +4,7 @@ from .models import User
 from random import randint
 from django.conf import settings
 from django.contrib import messages
-from datetime import date, datetime
+from datetime import date, datetime, tzinfo
 from movie.models import SessionUser
 from django.shortcuts import render, redirect
 from .forms import UserPhoneForm, PasswordSms
@@ -25,25 +25,23 @@ def phone(request):
             try:
                 user = User.objects.get(phone_number = phone) 
                 user.otp = otp
-                user.otp_create_time = datetime.now()
                 user.save()
-                otp_check.sms_send(phone, otp)
+                #otp_check.sms_send(phone, otp)
                 print('phone:',phone,'sms',otp)
                 request.session['phone_number'] = user.phone_number
                 messages.info(request,_("A text message was sent to your number"), 'info')
-                return redirect('movie:sms')
+                return redirect('accounts:sms')
             except User.DoesNotExist:
                 passwrd = 'Asdsfe3434932n#$2'
                 user = User.objects.create_user(phone_number = phone,  password = passwrd)
                 user.is_active = False
                 user.otp = otp
-                user.otp_create_time = datetime.now()
                 user.save()
-                otp_check.sms_send(phone, otp)
+                #otp_check.sms_send(phone, otp)
                 print('phone:',phone,'sms',otp)
                 request.session['phone_number'] = user.phone_number
                 messages.info(request,_("A text message was sent to your number"), 'info')
-                return redirect('movie:sms')
+                return redirect('sccounts:sms')
         else:
             form = UserPhoneForm(request.POST)
             messages.warning(request,_("please chek field for error"))
@@ -77,7 +75,8 @@ def sms(request):
                 if passwordraw == user.otp and user.otp is not None:
                     if not otp_check.check_time(phone):
                         messages.warning(request,_('time for check password out'),'error')
-                        return redirect('movie:phone')
+                        return redirect('accounts:phone')
+
                     user.is_active = True
                     user.otp = None
                     user.save()
@@ -119,4 +118,4 @@ def sms(request):
 def signout(request):
     logout(request)
     messages.success(request, _('you are logout of site'), 'success')
-    return redirect('movie:phone')
+    return redirect('accounts:phone')

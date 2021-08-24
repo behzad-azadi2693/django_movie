@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #local
     'movie.apps.MovieConfig',
-    'accounts',
+    'accounts.apps.AccountsConfig',
     #3rd
     'django_user_agents',
     'django.contrib.sitemaps',
@@ -168,7 +168,7 @@ LANGUAGES = (
     ('en', 'English'),
 )
 
-TIME_ZONE = 'Asia/Tehran'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
