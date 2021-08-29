@@ -39,10 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #local
     'movie.apps.MovieConfig',
-    'accounts.apps.AccountsConfig',
+    'accounts.apps.AccountsConfig',    
+    'api.apps.ApiConfig',    
     #3rd
     'django_user_agents',
     'django.contrib.sitemaps',
+    'rest_framework',
+
 
 ]
 
@@ -106,7 +109,7 @@ else:
             'PASSWORD': 'admin',
             'USER': 'admin',
             'PORT': 5432,
-            'HOST': 'postgres_container',
+            'HOST': 'postgres1_container',
         },
         'message_db':{
             'ENGINE': 'django.db.backends.postgresql',
@@ -114,7 +117,7 @@ else:
             'PASSWORD': 'admin',
             'USER': 'admin',
             'PORT': 5432,
-            'HOST': 'postgres_container',
+            'HOST': 'postgres2_container',
         },
     }
 

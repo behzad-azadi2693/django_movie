@@ -14,7 +14,7 @@ class Category(models.Model):
 
     def __str__(self) -> str:
         return f'{self.name}-{self.name_en}'
-    
+
     class Meta:
         app_label = 'accounts'
 
@@ -51,7 +51,6 @@ class Movie(models.Model):
     filme720 = models.FileField(upload_to=path_save_movie, null=True, blank=True, verbose_name=_("movie quality 720"))
     film480 = models.FileField(upload_to=path_save_movie, null=True, blank=True, verbose_name=_("movie quality 1080"))
     subtitle = models.FileField(upload_to=path_save_movie, null=True, blank=True, verbose_name=_("movie subtitle"))
-    category = models.ForeignKey(Category,related_name='cat_movie', on_delete=models.DO_NOTHING, null=True, blank=True)
     director = models.CharField(max_length=250, null=True, blank=True, default=_("None"), verbose_name=_("movie director"))
     writer = models.CharField(max_length=250,  null=True, blank=True,default=_("None"), verbose_name=_("movie writer"))
     stars = models.CharField(max_length=400, null=True, blank=True, default=_("None"), verbose_name=_("movie stars"))
@@ -60,6 +59,7 @@ class Movie(models.Model):
     choice = models.CharField(choices=MOVIE_CHOICE, max_length=15, verbose_name=_("movie choice"))
     review_movie = GenericRelation('Review')
     save_movie = GenericRelation('Save')
+
 
     class Meta:
         verbose_name = _("movie table")
@@ -145,12 +145,12 @@ class SerialSession(models.Model):
     slug = models.SlugField(allow_unicode=True, verbose_name=_("serial session slug"))
     serial = models.ForeignKey(Serial, related_name='sessions_serial',on_delete=models.CASCADE)
     subtitle = models.FileField(upload_to=path_save_session, null=True, blank=True, verbose_name=_("serial subtitle"))
-    ordering = ('-id',)
 
     class Meta:
         verbose_name = 'serial session table'
         verbose_name_plural = 'serials session table'
         app_label = 'accounts'
+        ordering = ('-id',)
 
     def get_absulote_url(self):
         return reverse('movie:serial_session', args=(self.slug,))
@@ -297,7 +297,7 @@ class NewsLetters(models.Model):
 
 class MessagesSending(models.Model):
     subject = models.CharField(max_length=300, verbose_name=_('subject email'))
-    date = models.DateTimeField(verbose_name=_('date sendig email'))
+    date = models.DateTimeField(verbose_name=_('date sendig email'), auto_now_add=True)
     messages = models.TextField(verbose_name=_('message in email'))
     
     class Meta:

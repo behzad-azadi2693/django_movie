@@ -163,7 +163,7 @@ class FormCategory(forms.ModelForm):
 
 class FormReview(forms.ModelForm):
     pk = forms.IntegerField(
-        widget = forms.TextInput(),
+        widget = forms.HiddenInput(),
         min_value=1,
         label=''
     )

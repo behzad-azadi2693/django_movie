@@ -17,7 +17,7 @@ class AdminUser(BaseUserAdmin):
     fieldsets = ( #this is for form
         (_('Information'),{'fields':('phone_number','date_paid','password')}),
         (_('personal info'),{'fields':('is_active','is_admin')}),
-        (_('otp information'),{'fields':('otp','otp_create_time')}),
+        (_('otp information'),{'fields':('otp',)}),
         (_('permission'),{'fields':('groups', 'user_permissions')}),
     )
     add_fieldsets = (#this is for add_form 

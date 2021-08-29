@@ -26,18 +26,18 @@ def change_language(request):
         else:    
             return redirect(path)
 
-#public views
+
 def index(reauest):
     videos = cache.get('index_videos')
     if not videos:
-        videos = Movie.objects.using('movie_db').all()[:14]
+        videos = Movie.objects.all()[:14]
         if videos:
             cache.set('index_videos', videos, 60 * 60)
     
     print(videos)
     serials = cache.get('index_serials')
     if not serials:
-        serials = Serial.objects.using('movie_db').all().order_by('-date')[:12]
+        serials = Serial.objects.all().order_by('-date')[:12]
         if serials:
             cache.set('index_serials', serials, 60 * 60)
 
@@ -80,13 +80,13 @@ def contact(request):
 def collection(request):
     film_all = cache.get('collection_film_all')
     if not film_all:
-        film_all = Movie.objects.using('movie_db').all()
+        film_all = Movie.objects.all()
         if film_all:
             cache.set('collection_film_all',film_all, 60 * 15)
     
     serial_all = cache.get('collection_serial_all')
     if not serial_all:
-        serial_all = Serial.objects.using('movie_db').all()
+        serial_all = Serial.objects.all()
         if serial_all:
             cache.set('collection_serial_all', serial_all, 60 * 15)
 
@@ -169,13 +169,13 @@ def collection(request):
 def search(request):
     if request.GET.get('q'):
         query = request.GET.get('q')
-        movies = Movie.objects.using('movie_db').filter(
+        movies = Movie.objects.filter(
             Q(name__contains=query) | Q(date__contains=query) |
             Q(description__contains=query) | Q(description_en__contains=query) |
             Q(category__name__contains=query) | Q(name_en__contains=query) |
             Q(category__name_en__contains = query)
         )
-        serials = Serial.objects.using('movie_db').filter(
+        serials = Serial.objects.filter(
             Q(name__contains=query) | Q(date__contains=query) |
             Q(description__contains=query) | Q(description_en__contains=query) |
             Q(category__name__contains=query) |  Q(name_en__contains=query) |
@@ -185,8 +185,8 @@ def search(request):
         search_list = list(chain(movies , serials))
 
     else: 
-        movies =Movie.objects.using('movie_db').all()
-        serials = Serial.objects.using('movie_db').all()
+        movies =Movie.objects.all()
+        serials = Serial.objects.all()
 
         if request.GET.get('name'):
             name = request.GET.get('name')
@@ -233,7 +233,7 @@ def search(request):
 def film(request, slug):
     video = cache.get(f'film_{slug}')
     if not video:
-        video = Movie.objects.using('movie_db').get(slug=slug)
+        video = Movie.objects.get(slug=slug)
         if video:
             cache.set(f'film_{slug}', video, 3600)
     save = video.save_movie.filter(user = request.user)
@@ -256,7 +256,7 @@ def about(request):
 def serial(request, slug):
     video = cache.get(f'serial_{slug}')
     if not video:
-        video = Serial.objects.using('movie_db').get(slug=slug)
+        video = Serial.objects.get(slug=slug)
         if video:
             cache.set(f'serial_{slug}', video, 3600)
 
@@ -311,7 +311,7 @@ def serial_single(request, slug):
 #review views
 @login_required
 def singel_review(request, slug):
-    review = Review.objects.using('movie_db').get(slug=slug)
+    review = Review.objects.get(slug=slug)
 
     context = {
         'review':review,
@@ -324,7 +324,7 @@ def singel_review(request, slug):
 def review(request):
     review = cache.get('review')
     if not review:
-        review = Review.objects.using('movie_db').all()
+        review = Review.objects.all()
         cache.set('review', review, 360)
 
     if request.GET.get('name'):

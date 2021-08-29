@@ -141,6 +141,7 @@ def edit_review(request):
                 slti = cd['title']
                 obj.slug = slti.replace(' ','-')
                 obj.save() 
+                form.save()
                 return redirect(obj)
             else:
                 form = FormMovie(request.POST, request.FILES)
