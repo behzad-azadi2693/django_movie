@@ -34,6 +34,7 @@ def movie_detail(request, slug):
     if not request.user.is_authenticated:
         srz_data = {'please login to account'}
     elif request.user.is_paid == True or request.user.is_admin:
+        srz_data = MovieDetailDataSerializer(video).data
         if request.user.is_admin:
             link = {
                 'edit_movie': reverse('api:movie_edit', args=[video.slug]),
@@ -41,7 +42,6 @@ def movie_detail(request, slug):
             }
         else:
             link = None
-        srz_data = MovieDetailDataSerializer(video).data
     else:
         srz_data = {'Please proceed to purchase a subscription'}
      

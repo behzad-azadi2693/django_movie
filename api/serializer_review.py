@@ -10,6 +10,7 @@ from rest_framework.reverse import reverse
 
 class ReviewMovieDetailSerializer(ModelSerializer):
     content_object =  MovieSerializer()
+    
     class Meta:
         model = Review
         fields = ('name','name_en','title','description','description_en','is_for','filmpas','content_object','choice')
@@ -59,7 +60,7 @@ class EditReviewSerializer(MovieSerializer):
 class ImageMovie(MovieSerializer):
     class Meta:
         model = Movie
-        fields = ('image',)
+        fields = ('image','description', 'description_en')
 
 
 class ReviewMovieSerializer(ModelSerializer):
@@ -67,7 +68,7 @@ class ReviewMovieSerializer(ModelSerializer):
     review_url = SerializerMethodField()
     class Meta:
         model = Review
-        fields = ('name','name_en','description','description_en','content_object', 'review_url')
+        fields = ('name','name_en','content_object', 'review_url')
 
     def get_review_url(self, obj):
         result = '{}'.format(reverse('api:review_movie_detail', args=[obj.slug]))
@@ -76,14 +77,20 @@ class ReviewMovieSerializer(ModelSerializer):
 class ImageSerial(MovieSerializer):
     class Meta:
         model = Serial
-        fields = ('image',)
+        fields = ('image','description', 'description_en')
 
 class ReviewSerialSerializer(ModelSerializer):
     content_object = ImageSerial()
     review_url = SerializerMethodField()
     class Meta:
         model = Review
-        fields = ('name','name_en','description','description_en','content_object','review_url')
+        fields = ('name','name_en','content_object','review_url')
 
     def get_review_url(self, obj):
         result = '{}'.format(reverse('api:review_serial_detail', args=[obj.slug]))
+
+
+class ReviewSerializer(ModelSerializer):
+    content_object = ImageMovie()
+    class Meta:
+        fields = ('name','name_en','content_object')

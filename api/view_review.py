@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls.base import reverse
 from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.response import Response
 from movie.models import Movie, Review, Serial
@@ -7,7 +8,8 @@ from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from .serializer_review import (
                     CreateReviewMovieSerializer, CreateReviewSerialSerializer, ReviewMovieSerializer, ReviewSerialSerializer,
-                    ReviewMovieDetailSerializer,ReviewMovieDetailSerializer,ReviewSerialDetailSerializer,EditReviewSerializer
+                    ReviewMovieDetailSerializer,ReviewMovieDetailSerializer,ReviewSerialDetailSerializer,EditReviewSerializer,
+                    ReviewSerializer
                 )
 
 
@@ -81,9 +83,23 @@ def review_movie_detail(request, slug):
         video = Review.objects.get(slug = slug, is_for = 'movie')
     except Review.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    form = ReviewMovieDetailSerializer(video).data
 
+    srz_detail = ReviewSerializer(video).data
+
+
+    if not request.user.is_authenticated:
+        srz_data = {'please login to account'}
+    if request.user.is_paid or request.user.is_admin:
+        srz_date = ReviewMovieDetailSerializer(video).data
+        if request.user.is_admin:
+            link = {
+                'edit_review': reverse('api:edit_review', args=[video.slug])
+            }
+        else:
+            link = None
+    else:
+        srz_data = {'Please proceed to purchase a subscription'}
+    form = (srz_data, srz_detail, link )
     return Response(form, status=status.HTTP_200_OK)
 
 
@@ -94,8 +110,20 @@ def review_serial_detail(request, slug):
         except Review.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
-        form = ReviewSerialDetailSerializer(video).data
-
+        srz_detail = ReviewSerializer(video).data
+        if not request.user.is_authenticated:
+            srz_data = {'please login to account'}
+        if request.user.is_paid or request.user.is_admin:
+            srz_date = ReviewSerialDetailSerializer(video).data
+            if request.user.is_admin:
+                link = {
+                    'edit_review': reverse('api:edit_review', args=[video.slug])
+                }
+            else:
+                link = None
+        else:
+            srz_data = {'Please proceed to purchase a subscription'}
+        form = (srz_data, srz_detail, link )
         return Response(form, status=status.HTTP_200_OK)
 
 

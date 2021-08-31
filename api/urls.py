@@ -1,8 +1,7 @@
-from collections import namedtuple
 from django.urls import path, include
 from .views import admin_controller, index, category_create, contact_us, send_email, submit_email
 from .view_movie import movie_list, movie_detail,movie_all_list,movie_create, movie_edit
-from .view_review import create_review_movie,create_review_serial,review_list,review_movie_detail,review_serial_detail
+from .view_review import create_review_movie,create_review_serial,review_list,review_movie_detail,review_serial_detail, edit_review
 from .view_serial import (
                 create_serial_film, edit_serial, serial_list,
                 serial_detail,serial_all_list, create_serial,create_session, 
@@ -17,6 +16,7 @@ review_urlpatterns = [
     path('create/serial/<int:pk>/', create_review_serial, name='create_review_serial'),
     path('movie/<str:slug>/', review_movie_detail, name='review_movie_detail'),
     path('serial/<str:slug>/', review_serial_detail, name='review_serial_detail'),
+    path('edit/<str:slug>/',edit_review , name='edit_review'),
 ] 
 
 movie_patterns = [
