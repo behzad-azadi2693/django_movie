@@ -202,7 +202,7 @@ MEDIA_ROOT = os.path.join('media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_URL = 'movie:phone'
+LOGIN_URL = 'accounts:phone'
 
 AUTH_USER_MODEL='accounts.User'
 

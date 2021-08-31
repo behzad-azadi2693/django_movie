@@ -43,20 +43,10 @@ class SerialAllListSerializer(ModelSerializer):
 
 
 class SerialSerializer(ModelSerializer):
-    #edit_serial =    SerializerMethodField() #reverse('api:serial_edit',args=[video.slug]),
-    #create_session = SerializerMethodField() #reverse('api:create_session',args=[video.slug])
     class Meta:
         model = Serial
         fields = ('image', 'name', 'name_en','title','description','description_en','gener','gener_en',
           'director','writer','stars','filmpas','awards','ratin','category','date','choice','time')
-
-    #def get_edit_serial(self, obj):
-    #    result = '{}'.format(reverse('api:serial_edit',args=[obj.slug]),)
-    #    return result
-#
-    #def get_create_session(self, obj):
-    #    result = '{}'.format(reverse('api:create_session',args=[obj.slug]),)
-    #    return result
 
 
 class AdminSerialFilmSerializer(ModelSerializer):

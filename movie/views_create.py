@@ -1,7 +1,7 @@
 import datetime
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.http.response import BadHeaderError
+from django.http.response import BadHeaderError, Http404
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test

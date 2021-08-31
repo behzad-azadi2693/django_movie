@@ -65,7 +65,7 @@ def admin_controller(request):
 @api_view(['GET','POST'])
 def submit_email(request):
     if request.method == 'POST':
-        form = NewsLettersSerializer(request.data)
+        form = NewsLettersSerializer(data=request.data)
 
         if form.is_valid():
             form.save()
@@ -79,7 +79,7 @@ def submit_email(request):
 @api_view(['GET','POST'])
 def contact_us(request):
     if request.method == 'POST':
-        form = ContactUsSerializer(request.data)
+        form = ContactUsSerializer(data=request.data)
         if form.is_valid():
             form.save()
             return Response(form.data, status=status.HTTP_201_CREATED)
@@ -93,7 +93,7 @@ def contact_us(request):
 @api_view(['GET','POST'])
 def send_email(request):
     if request.method == 'POST':
-        form = MessagesSendingSerializer(request.data)
+        form = MessagesSendingSerializer(data=request.data)
 
         if form.is_valid():
             form.save()

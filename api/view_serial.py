@@ -1,13 +1,13 @@
 from os import stat
 from rest_framework.response import Response
-from movie.models import Serial, SerialFilms, SerialSession
+from movie.models import Review, Serial, SerialFilms, SerialSession
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from django.urls import reverse
 from .serializer_serial import (
                         SerialFilmSerializer, SerialAllListSerializer, SerialChoceListSerializer,SerialSerializer,
-                        SerialSessionSerializer,AdminSerialSessionSerializer,
+                        SerialSessionSerializer,AdminSerialSessionSerializer
                     )
 
 
@@ -44,17 +44,15 @@ def serial_detail(request, slug):
             srz_session = AdminSerialSessionSerializer(session, many=True).data
             link = {
                     'edit_serial' : reverse('api:serial_edit',args=[video.slug]),
-                    'create_session' : reverse('api:create_session',args=[video.slug])
+                    'create_session' : reverse('api:create_session',args=[video.slug]),
+                    'create_review' : reverse('api:create_review_serial',args=[video.pk])
                 }
-
+        else:
+            link = None
     else:
-        ser_session = {'Please proceed to purchase a subscription'}
+        sez_session = {'Please proceed to purchase a subscription'}
 
-    link = {
-        'edit_serial' : reverse('api:serial_edit',args=[video.slug]),
-        'create_session' : reverse('api:create_session',args=[video.slug])
-    }
-    srz = (srz_detail, link)
+    srz = (srz_detail,srz_session, link)
     return Response(srz, status=status.HTTP_200_OK)
 
 

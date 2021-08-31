@@ -22,7 +22,7 @@ class AdminUser(BaseUserAdmin):
     )
     add_fieldsets = (#this is for add_form 
         (_('Information'),{'fields':('phone_number', 'password','password_confierm')}),
-        (_('otp information'),{'fields':('otp','otp_create_time')}),
+        (_('otp information'),{'fields':('otp',)}),
         (_('Access'),{'fields':('is_active','is_admin', 'groups', 'user_permissions')})
     )
     search_fields = ('phone_number',)

@@ -1,10 +1,8 @@
-from os import execlp
 from rest_framework.response import Response
 from movie.models import Movie
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.parsers import JSONParser
 
 from django.urls import reverse
 from .serializer_movie import (
@@ -37,14 +35,17 @@ def movie_detail(request, slug):
         srz_data = {'please login to account'}
     elif request.user.is_paid == True or request.user.is_admin:
         if request.user.is_admin:
-            edit_movie = reverse('api:movie_edit', args=[video.slug])
+            link = {
+                'edit_movie': reverse('api:movie_edit', args=[video.slug]),
+                'create_review':reverse('api:create_review_movie', args =[video.pk])
+            }
         else:
-            edit_movie = None
+            link = None
         srz_data = MovieDetailDataSerializer(video).data
     else:
         srz_data = {'Please proceed to purchase a subscription'}
      
-    srz = (srz_data,srz_detail,edit_movie )
+    srz = (srz_data,srz_detail,link )
 
     return Response(srz, status=status.HTTP_200_OK)
 

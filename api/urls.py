@@ -2,6 +2,7 @@ from collections import namedtuple
 from django.urls import path, include
 from .views import admin_controller, index, category_create, contact_us, send_email, submit_email
 from .view_movie import movie_list, movie_detail,movie_all_list,movie_create, movie_edit
+from .view_review import create_review_movie,create_review_serial,review_list,review_movie_detail,review_serial_detail
 from .view_serial import (
                 create_serial_film, edit_serial, serial_list,
                 serial_detail,serial_all_list, create_serial,create_session, 
@@ -9,6 +10,14 @@ from .view_serial import (
             )
 
 app_name = 'api'
+
+review_urlpatterns = [
+    path('',review_list, name='review_list'),
+    path('create/movie/<int:pk>/', create_review_movie, name='create_review_movie'),
+    path('create/serial/<int:pk>/', create_review_serial, name='create_review_serial'),
+    path('movie/<str:slug>/', review_movie_detail, name='review_movie_detail'),
+    path('serial/<str:slug>/', review_serial_detail, name='review_serial_detail'),
+] 
 
 movie_patterns = [
     path('list/<str:choice>/', movie_list , name='movie_list'),
@@ -37,7 +46,8 @@ urlpatterns = [
     path('category/create/',  category_create, name='category_create'),
     path('contactus/',  contact_us, name='contact_us'),
     path('send_email/',send_email,name="send_email"),
+
     path('movie/', include(movie_patterns)),
     path('serial/', include(serial_patterns)),
-    
+    path('review/', include(review_urlpatterns)),
 ]
