@@ -5,11 +5,12 @@ from rest_framework.response import Response
 from .serializer_serial import SerialTenListSerializer
 from .serializer_movie import MovieTenListSerializer
 from rest_framework.decorators import api_view
-from movie.models import Movie,Serial
+from movie.models import Movie,Serial, Save
 from rest_framework import status
 from .serializer import CategorySerializer, ContactUsSerializer, MessagesSendingSerializer,NewsLettersSerializer
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.contrib.contenttypes.models import ContentType
 
 
 @api_view(['GET'],)
@@ -97,21 +98,21 @@ def send_email(request):
 
         if form.is_valid():
             form.save()
-            #email_all = NewsLetters.objects.all()
-            #email_list = []
-            #for email in email_all:
-            #    email_list.append(email.email)
-            #try:
-            #    send_mail(
-            #        form.subject,
-            #        form.message, 
-            #        'FILM-View Site',
-            #        email_list,
-            #        fail_silently=False,
-            #    )
-            #    return Response(form.data, status=status.HTTP_200_OK)
-            #except:
-            #    message = 'dont send email'
+            email_all = NewsLetters.objects.all()
+            email_list = []
+            for email in email_all:
+                email_list.append(email.email)
+            try:
+                send_mail(
+                    form.subject,
+                    form.message, 
+                    'FILM-View Site',
+                    email_list,
+                    fail_silently=False,
+                )
+                return Response(form.data, status=status.HTTP_200_OK)
+            except:
+                message = 'dont send email'
             return Response(form.data, status=status.HTTP_201_CREATED)
 
         else:
@@ -120,3 +121,48 @@ def send_email(request):
     else:
         form = MessagesSendingSerializer()
         return Response(form.data)
+
+@api_view(['GET'],)
+def save_serial(request, slug):
+    try:
+        video = Serial.objects.get(slug=slug)
+    except Serial.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    save = video.save_serial.filter(user = request.user)
+
+    if save:
+        content_type = ContentType.objects.get_for_model(video)
+        serial_del = Save.objects.get(user = request.user, content_type = content_type, object_id = video.pk)
+        serial_del.delete()
+
+    else:
+        market = Save(
+            user = request.user, content_object = video
+        )
+        market.save()
+
+    return Response(status=status.HTTP_201_CREATED)
+
+
+@api_view(['GET'],)
+def save_movie(request, slug):
+    try:
+        video = Movie.objects.get(slug=slug)
+    except Movie.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    save = video.save_movie.filter(user = request.user)
+
+    if save:
+        content_type = ContentType.objects.get_for_model(video)
+        save_del = Save.objects.get(user = request.user, content_type = content_type, object_id = video.pk)
+        save_del.delete()
+
+    else:
+        market = Save(
+            user = request.user, content_object = video
+        )
+        market.save()
+
+    return Response(status=status.HTTP_201_CREATED)

@@ -86,7 +86,7 @@ def review_movie_detail(request, slug):
 
     srz_detail = ReviewSerializer(video).data
 
-
+    link = None
     if not request.user.is_authenticated:
         srz_data = {'please login to account'}
     if request.user.is_paid or request.user.is_admin:
@@ -95,8 +95,6 @@ def review_movie_detail(request, slug):
             link = {
                 'edit_review': reverse('api:edit_review', args=[video.slug])
             }
-        else:
-            link = None
     else:
         srz_data = {'Please proceed to purchase a subscription'}
     form = (srz_data, srz_detail, link )
@@ -110,17 +108,17 @@ def review_serial_detail(request, slug):
         except Review.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+        link = None 
         srz_detail = ReviewSerializer(video).data
         if not request.user.is_authenticated:
             srz_data = {'please login to account'}
-        if request.user.is_paid or request.user.is_admin:
+        elif request.user.is_paid or request.user.is_admin:
             srz_date = ReviewSerialDetailSerializer(video).data
             if request.user.is_admin:
                 link = {
                     'edit_review': reverse('api:edit_review', args=[video.slug])
                 }
-            else:
-                link = None
+                
         else:
             srz_data = {'Please proceed to purchase a subscription'}
         form = (srz_data, srz_detail, link )

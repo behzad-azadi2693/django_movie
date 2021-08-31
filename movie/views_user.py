@@ -30,7 +30,7 @@ def save_serial(request, slug):
 
     if save:
         content_type = ContentType.objects.get_for_model(serial)
-        serial_del = Save.objects.get(user = request.user, content_type = content_type, conten_id = serial.pk)
+        serial_del = Save.objects.get(user = request.user, content_type = content_type, object_id = serial.pk)
         serial_del.delete()
 
     else:

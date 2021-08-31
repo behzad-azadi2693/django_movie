@@ -32,6 +32,10 @@ def serial_detail(request, slug):
     except:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
+    link = {
+        'is_save':[True if video.save_serial.filter(user = request.user) else False],
+        'save':reverse('api:save_serial', args=[video.slug])
+    }
     srz_detail = SerialSerializer(video).data
 
     if not request.user.is_authenticated:
@@ -42,13 +46,11 @@ def serial_detail(request, slug):
             srz_session = SerialSessionSerializer(session, many=True).data
         if  request.user.is_admin:
             srz_session = AdminSerialSessionSerializer(session, many=True).data
-            link = {
+            link.update({
                     'edit_serial' : reverse('api:serial_edit',args=[video.slug]),
                     'create_session' : reverse('api:create_session',args=[video.slug]),
                     'create_review' : reverse('api:create_review_serial',args=[video.pk])
-                }
-        else:
-            link = None
+                })
     else:
         sez_session = {'Please proceed to purchase a subscription'}
 

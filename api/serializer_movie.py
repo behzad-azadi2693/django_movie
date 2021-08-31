@@ -1,6 +1,8 @@
 from copy import error
+from django.contrib.contenttypes import fields
+from django.db import models
 from rest_framework import serializers
-from movie.models import Movie, SerialFilms
+from movie.models import Movie, Save
 from django.utils.translation import gettext_lazy as _
 from rest_framework.serializers import (
     HyperlinkedModelSerializer, ModelSerializer, SerializerMethodField
@@ -51,14 +53,8 @@ class MovieDetailDataSerializer(ModelSerializer):
         fields = ('film1080','filme720','film480','subtitle')
 
 
-class MovieSerializer(ModelSerializer):        
+class MovieSerializer(ModelSerializer):       
     class Meta:
         model = Movie
         fields = ('image', 'name', 'name_en','title','description','description_en','gener','gener_en','subtitle','choice',
                   'director','writer','stars','filmpas','awards','ratin','category','time','date','film1080','filme720','film480')
-                 
-                 
-
-
-
-

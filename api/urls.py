@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import admin_controller, index, category_create, contact_us, send_email, submit_email
+from .views import admin_controller, index, category_create, contact_us, send_email, submit_email, save_serial, save_movie
 from .view_movie import movie_list, movie_detail,movie_all_list,movie_create, movie_edit
 from .view_review import create_review_movie,create_review_serial,review_list,review_movie_detail,review_serial_detail, edit_review
 from .view_serial import (
@@ -39,6 +39,12 @@ serial_patterns = [
     path('edit/serial_film/<int:pk>/', edit_serial_film , name='serial_film_edit'),
 ]
 
+save_patterns = [
+    path('serial/<str:slug>/',save_serial, name="save_serial"),
+    path('movie/<str:slug>/',save_movie, name="save_movie"),
+]
+
+
 urlpatterns = [
     path('', index , name='index'),
     path('submit/email/', submit_email , name='submit_email'),
@@ -50,4 +56,6 @@ urlpatterns = [
     path('movie/', include(movie_patterns)),
     path('serial/', include(serial_patterns)),
     path('review/', include(review_urlpatterns)),
+    path('save/', include(save_patterns)),
+
 ]

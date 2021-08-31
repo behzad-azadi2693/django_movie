@@ -29,6 +29,10 @@ def movie_list(request, choice):
 def movie_detail(request, slug):
     video = Movie.objects.get(slug=slug)
 
+    link = {
+        'is_save':[True if video.save_movie.filter(user = request.user) else False],
+        'save':reverse('api:save_movie', args=[video.slug]),
+    }
     srz_detail = MovieSerializer(video).data
 
     if not request.user.is_authenticated:
@@ -36,12 +40,10 @@ def movie_detail(request, slug):
     elif request.user.is_paid == True or request.user.is_admin:
         srz_data = MovieDetailDataSerializer(video).data
         if request.user.is_admin:
-            link = {
+            link.update({
                 'edit_movie': reverse('api:movie_edit', args=[video.slug]),
                 'create_review':reverse('api:create_review_movie', args =[video.pk])
-            }
-        else:
-            link = None
+            })
     else:
         srz_data = {'Please proceed to purchase a subscription'}
      
