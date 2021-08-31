@@ -3,21 +3,30 @@ from rest_framework.response import Response
 from movie.models import Review, Serial, SerialFilms, SerialSession
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import status
+from rest_framework import status, views
 from django.urls import reverse
 from .serializer_serial import (
                         SerialFilmSerializer, SerialAllListSerializer, SerialChoceListSerializer,SerialSerializer,
                         SerialSessionSerializer,AdminSerialSessionSerializer
                     )
+from django.core.cache import cache
 
 
 @api_view(['GET'])
 def serial_list(request, choice):
     paginatore = PageNumberPagination()
     paginatore.page_size = 12
+    
+    video_all = cache.get('collection_serial_all')
+    if not video_all:
+        video_all = Serial.objects.all()
+        if video_all:
+            cache.set('collection_serial_all')
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    video = Serial.objects.filter(choice = choice)
-
+    video = video_all.filter(choice = choice)
+    
     result_page = paginatore.paginate_queryset(video, request)
 
     srz = SerialChoceListSerializer(result_page, many=True).data
@@ -27,10 +36,15 @@ def serial_list(request, choice):
 
 @api_view(['GET'],)
 def serial_detail(request, slug):
-    try:
-        video = Serial.objects.get(slug=slug)
-    except:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    video = cache.get(f'serial_{slug}')
+    if not video:
+        try:
+            video = Serial.objects.get(slug=slug)
+            if video:
+                cache.set(f'serial_{slug}', video, 3600)
+        except Serial.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     link = {
         'is_save':[True if video.save_serial.filter(user = request.user) else False],
@@ -62,8 +76,14 @@ def serial_detail(request, slug):
 def serial_all_list(request):
     paginator = PageNumberPagination()
     paginator.page_size = 12
-
-    video = Serial.objects.all()
+ 
+    video = cache.get('collection_serial_all')
+    if not video:
+        video = Serial.objects.all()
+        if video:
+            cache.set('collection_serial_all', video, 60 * 60)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     result_page = paginator.paginate_queryset(video, request)
 

@@ -2,6 +2,7 @@ import datetime
 from itertools import chain
 from django.db.models import Q
 from django.conf import settings
+from django.http.response import Http404
 from .forms import FormContactForm
 from django.core.cache import cache
 from django.contrib import messages
@@ -33,8 +34,7 @@ def index(reauest):
         videos = Movie.objects.all()[:14]
         if videos:
             cache.set('index_videos', videos, 60 * 60)
-    
-    print(videos)
+
     serials = cache.get('index_serials')
     if not serials:
         serials = Serial.objects.all().order_by('-date')[:12]
@@ -233,9 +233,13 @@ def search(request):
 def film(request, slug):
     video = cache.get(f'film_{slug}')
     if not video:
-        video = Movie.objects.get(slug=slug)
-        if video:
-            cache.set(f'film_{slug}', video, 3600)
+        try:
+            video = Movie.objects.get(slug=slug)
+            if video:
+                cache.set(f'film_{slug}', video, 3600)
+        except:
+            return Http404()
+
     save = video.save_movie.filter(user = request.user)
 
     context = {
@@ -256,9 +260,12 @@ def about(request):
 def serial(request, slug):
     video = cache.get(f'serial_{slug}')
     if not video:
-        video = Serial.objects.get(slug=slug)
-        if video:
-            cache.set(f'serial_{slug}', video, 3600)
+        try:
+            video = Serial.objects.get(slug=slug)
+            if video:
+                cache.set(f'serial_{slug}', video, 3600)
+        except:
+            return Http404()
 
     save = video.save_serial.filter(user = request.user)
     context = {

@@ -1,5 +1,5 @@
 from django.contrib import messages
-from rest_framework import response
+from rest_framework import response, serializers
 from movie.models import NewsLetters
 from rest_framework.response import Response
 from .serializer_serial import SerialTenListSerializer
@@ -11,12 +11,23 @@ from .serializer import CategorySerializer, ContactUsSerializer, MessagesSending
 from django.urls import reverse
 from django.core.mail import send_mail
 from django.contrib.contenttypes.models import ContentType
+from django.core.cache import cache
 
 
 @api_view(['GET'],)
 def index(request):
-    video = Movie.objects.all()
-    serial = Serial.objects.all()
+    
+    video = cache.get('collection_film_all')
+    if not video:
+        video = Movie.objects.all()
+        if video:
+            cache.set('collection_film_all', video, 60*60)
+    
+    serial = cache.get('collection_serial_all')
+    if not serial:
+        serial = Serial.objects.all()
+        if serial:
+            cache.set('collection_serial_all', serial, 60 * 60)
 
     m_iranian = MovieTenListSerializer(video.filter(choice='iranian')[:10], many=True).data
     s_iranian = SerialTenListSerializer(serial.filter(choice='iranian')[:10], many=True).data   

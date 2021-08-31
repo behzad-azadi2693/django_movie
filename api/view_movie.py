@@ -1,3 +1,5 @@
+from os import stat
+from django.core.cache import cache
 from rest_framework.response import Response
 from movie.models import Movie
 from rest_framework.decorators import api_view
@@ -15,8 +17,17 @@ from .serializer_movie import (
 def movie_list(request, choice):
     paginator = PageNumberPagination()
     paginator.page_size = 12
-    
-    video = Movie.objects.filter(choice = choice)
+
+    video_all = cache.get('collection_film_all')
+
+    if not video_all:
+        video_all = Movie.objects.all()
+        if video_all:
+            cache.set('collection_film_all', video_all, 60*60)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    video = video_all.filter(choice = choice)
 
     result_page = paginator.paginate_queryset(video ,request)
 
@@ -27,7 +38,14 @@ def movie_list(request, choice):
 
 @api_view(['GET'],)
 def movie_detail(request, slug):
-    video = Movie.objects.get(slug=slug)
+    video = cache.get(f'film_{slug}')
+    if not video:
+        try:
+            video = Movie.objects.get(slug=slug)
+            if video:
+                cache.set(f'film_{slug}', video, 3600)
+        except Movie.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
     link = {
         'is_save':[True if video.save_movie.filter(user = request.user) else False],
@@ -57,6 +75,14 @@ def movie_all_list(request):
     paginator = PageNumberPagination()
     paginator.page_size = 12
 
+    video_all = cache.get('collection_film_all')
+    if not video_all:
+        video_all = Movie.objects.all()
+        if video_all:
+            cache.set('collection_film_all', video_all, 60 * 60)
+        else:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    
     video = Movie.objects.all()
 
     result_page = paginator.paginate_queryset(video, request)
