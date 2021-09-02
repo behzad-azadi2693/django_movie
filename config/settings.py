@@ -45,8 +45,6 @@ INSTALLED_APPS = [
     'django_user_agents',
     'django.contrib.sitemaps',
     'rest_framework',
-
-
 ]
 
 MIDDLEWARE = [
@@ -226,3 +224,10 @@ else:
     EMAIL_HOST_USER = 'youremail@gmail.com'
     EMAIL_HOST_PASSWORD = 'email_password'
     EMAIL_PORT = 587
+
+
+#REST_FRAMEWORK = {
+#    'DEFAULT_AUTHENTICATION_CLASSES':[
+#        'rest_framework.authentication.SessionAuthentication'
+#    ]
+#}

@@ -12,6 +12,7 @@ from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
+from rest_framework.authtoken.models import Token
 
 def phone(request):
     if request.user.is_authenticated:
@@ -91,6 +92,7 @@ def sms(request):
                                         date_joiin = date.today(),
                                         ip_device =request.META['REMOTE_ADDR'] ,
                                     )
+                    Token.objects.get_or_create(user=user)
                     return redirect('movie:index')
                 if passwordraw != user.otp:
                     messages.error(request, _("The password entered is incorrect"), 'error')

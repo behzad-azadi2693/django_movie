@@ -47,14 +47,14 @@ def serial_detail(request, slug):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     link = {
-        'is_save':[True if video.save_serial.filter(user = request.user) else False],
         'save':reverse('api:save_serial', args=[video.slug])
     }
     srz_detail = SerialSerializer(video).data
 
-    if not request.user.is_authenticated:
-        srz_session = {'please loggin to account'}
-    elif request.user.is_paid == True or request.user.is_admin:
+    if request.user.is_authenticated:
+        link.update({'is_save':[True if video.save_serial.filter(user = request.user) else False]})
+
+    if request.user.is_authenticated and (request.user.is_paid == True or request.user.is_admin):
         session = video.sessions_serial.all().order_by('id')
         if not request.user.is_admin:
             srz_session = SerialSessionSerializer(session, many=True).data
@@ -66,7 +66,10 @@ def serial_detail(request, slug):
                     'create_review' : reverse('api:create_review_serial',args=[video.pk])
                 })
     else:
-        sez_session = {'Please proceed to purchase a subscription'}
+        srz_session = {'Please proceed to purchase a subscription'}
+
+    if not request.user.is_authenticated:
+        srz_session = {'please loggin to account'}
 
     srz = (srz_detail,srz_session, link)
     return Response(srz, status=status.HTTP_200_OK)

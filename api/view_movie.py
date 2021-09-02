@@ -48,14 +48,14 @@ def movie_detail(request, slug):
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     link = {
-        'is_save':[True if video.save_movie.filter(user = request.user) else False],
         'save':reverse('api:save_movie', args=[video.slug]),
     }
     srz_detail = MovieSerializer(video).data
 
-    if not request.user.is_authenticated:
-        srz_data = {'please login to account'}
-    elif request.user.is_paid == True or request.user.is_admin:
+    if request.user.is_authenticated:
+        link.update({'is_save':[True if video.save_movie.filter(user = request.user) else False]})
+
+    if request.user.is_authenticated and (request.user.is_paid == True or request.user.is_admin):
         srz_data = MovieDetailDataSerializer(video).data
         if request.user.is_admin:
             link.update({
@@ -64,7 +64,10 @@ def movie_detail(request, slug):
             })
     else:
         srz_data = {'Please proceed to purchase a subscription'}
-     
+    
+    if not request.user.is_authenticated:
+        srz_data = 'please login to account'
+
     srz = (srz_data,srz_detail,link )
 
     return Response(srz, status=status.HTTP_200_OK)
