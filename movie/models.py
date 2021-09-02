@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from accounts.models import User
+from rest_framework.authtoken.models import Token
 from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
@@ -258,6 +259,7 @@ class SessionUser(models.Model):
     os = models.CharField(max_length=300, verbose_name=_('os name'))
     date_joiin = models.DateField(verbose_name=_('date join device'))
     ip_device = models.GenericIPAddressField(verbose_name=_('ip address device'))
+    token = models.ForeignKey(Token, on_delete=models.CASCADE, verbose_name=_('Token user'))
 
 
     class Meta:

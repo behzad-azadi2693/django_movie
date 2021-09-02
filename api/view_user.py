@@ -11,10 +11,16 @@ from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout, authenticate
-from .seializer_user import OtpSerializer,PhoneSerializer
+from .seializer_user import OtpSerializer,PhoneSerializer, UserSerializer,PaidSerializer,SessionSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status, views
+from rest_framework.authtoken.models import Token
+
+from accounts.models import User
+from movie.models import Serial, Movie, Save
+from django.contrib.sessions.models import Session
+from django.shortcuts import get_object_or_404
 
 
 @api_view(['GET','POST'])
@@ -77,14 +83,17 @@ def sms(request):
                     user.save()
                     del request.session['phone_number']
                     login(request, user)
+                    token = Token.objects.get_or_create(user=user)
                     SessionUser.objects.get_or_create(
                                         user = user,
                                         session_key =Session.objects.get(session_key = request.session.session_key),
                                         device = f'{request.user_agent.browser.family}-{request.user_agent.browser.version_string}',
                                         os = f'{request.user_agent.os.family}-{request.user_agent.os.version_string}',
                                         date_joiin = date.today(),
-                                        ip_device =request.META['REMOTE_ADDR'] ,
+                                        ip_device =request.META['REMOTE_ADDR'],
+                                        token = token
                                     )
+
                     return redirect('api:index')
                 if passwordraw != user.otp:
                     return redirect('api:sms')
@@ -103,36 +112,35 @@ def sms(request):
 
 
 
-@login_required
+@api_view(['GET'],)
 def signout(request):
     logout(request)
-    messages.success(request, _('you are logout of site'), 'success')
-    return redirect('accounts:phone')
-
-
-'''
-from accounts.models import User
-from .models import Serial, Movie, Save
-from django.contrib.sessions.models import Session
-from django.shortcuts import get_object_or_404
+    return redirect('api:phone')
 
 
 
-def user(request):
+@api_view(['GET'],)
+def profile(request):
     pk = request.user.pk
+
     user = get_object_or_404(User, pk=pk)
+    form = UserSerializer(user).data
+    
     information = user.sessions.all()
+    sessn = SessionSerializer(information, many=True).data
+    
     paid_history = user.history_paid.all()
+    paid = PaidSerializer(paid_history, many=True).data
+    
+    
     saves = Save.objects.filter(user = request.user)
 
-    context = {
-        'user':user,
-        'informations':information,
-        'saves':saves,
-        'paids':paid_history,
-    }
+    srz = (form, paid,sessn)
+    return Response(srz, status=status.HTTP_200_OK)
 
-    return render(request, 'publick/user.html', context)
+
+
+
 
 
 def remove_session(request):
@@ -146,4 +154,3 @@ def remove_session(request):
             return redirect('movie:user')
     else:           
         return redirect('movie:user')
-'''

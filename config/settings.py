@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django_user_agents',
     'django.contrib.sitemaps',
     'rest_framework',
+    'rest_framework.authtoken'
+
 ]
 
 MIDDLEWARE = [
@@ -88,12 +90,12 @@ if DEBUG == True:
     DATABASES = {
        'default': {},
         'movie_db': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'movie.sqlite3',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'movie.sqlite3',
         },
         'message_db':{
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'message.sqlite3',
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'message.sqlite3',
         }
     }
 else:

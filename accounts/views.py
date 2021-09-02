@@ -24,7 +24,7 @@ def phone(request):
             phone = form.cleaned_data['phone_number']
             otp = randint(100000, 999999)
             try:
-                user = User.objects.get(phone_number = phone) 
+                user = User.objects.get(phone_number = phone)
                 user.otp = otp
                 user.save()
                 #otp_check.sms_send(phone, otp)
@@ -42,7 +42,7 @@ def phone(request):
                 print('phone:',phone,'sms',otp)
                 request.session['phone_number'] = user.phone_number
                 messages.info(request,_("A text message was sent to your number"), 'info')
-                return redirect('sccounts:sms')
+                return redirect('accounts:sms')
         else:
             form = UserPhoneForm(request.POST)
             messages.warning(request,_("please chek field for error"))
@@ -84,6 +84,7 @@ def sms(request):
                     del request.session['phone_number']
                     messages.success(request , _("your successfull to login in site"), 'success')
                     login(request, user)
+                    token = Token.objects.get_or_create(user=user)
                     SessionUser.objects.get_or_create(
                                         user = user,
                                         session_key =Session.objects.get(session_key = request.session.session_key),
@@ -91,8 +92,8 @@ def sms(request):
                                         os = f'{request.user_agent.os.family}-{request.user_agent.os.version_string}',
                                         date_joiin = date.today(),
                                         ip_device =request.META['REMOTE_ADDR'] ,
+                                        token = token
                                     )
-                    Token.objects.get_or_create(user=user)
                     return redirect('movie:index')
                 if passwordraw != user.otp:
                     messages.error(request, _("The password entered is incorrect"), 'error')

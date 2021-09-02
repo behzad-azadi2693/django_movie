@@ -1,7 +1,7 @@
 from django.urls import path, include
 from .views import admin_controller, index, category_create, contact_us, send_email, submit_email, save_serial, save_movie
 from .view_movie import movie_list, movie_detail,movie_all_list,movie_create, movie_edit
-from .view_user import phone, sms
+from .view_user import phone, sms, signout, profile
 from .view_review import create_review_movie,create_review_serial,review_list,review_movie_detail,review_serial_detail, edit_review
 from .view_serial import (
                 create_serial_film, edit_serial, serial_list,
@@ -55,6 +55,8 @@ urlpatterns = [
     path('send_email/',send_email,name="send_email"),
     path('phone/', phone, name="phone"),
     path('sms/', sms ,name="sms"),
+    path('signout/', signout ,name="signout"),
+    path('profile/', profile ,name="profile"),
 
     path('movie/', include(movie_patterns)),
     path('serial/', include(serial_patterns)),
