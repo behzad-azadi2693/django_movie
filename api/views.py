@@ -12,7 +12,7 @@ from django.urls import reverse
 from django.core.mail import send_mail
 from django.contrib.contenttypes.models import ContentType
 from django.core.cache import cache
-
+from django.shortcuts import redirect
 
 @api_view(['GET'],)
 def index(request):
@@ -53,6 +53,9 @@ def index(request):
 
 @api_view(["GET", 'POST'])
 def category_create(request):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     if request.method == "POST":
         form = CategorySerializer(data=request.data)
         if form.is_valid():
@@ -67,6 +70,9 @@ def category_create(request):
 
 @api_view(['GET'],)
 def admin_controller(request):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     if request.user.is_admin:
         create_movie = reverse('api:movie_create')
         create_serial = reverse('api:serial_create')
@@ -88,6 +94,7 @@ def submit_email(request):
         form = NewsLettersSerializer()
         return Response(form.data)
 
+
 @api_view(['GET','POST'])
 def contact_us(request):
     if request.method == 'POST':
@@ -104,6 +111,9 @@ def contact_us(request):
 
 @api_view(['GET','POST'])
 def send_email(request):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     if request.method == 'POST':
         form = MessagesSendingSerializer(data=request.data)
 
@@ -133,8 +143,12 @@ def send_email(request):
         form = MessagesSendingSerializer()
         return Response(form.data)
 
+
 @api_view(['GET'],)
 def save_serial(request, slug):
+    if not request.user.is_authenticated:
+        return redirect('api:phone')
+
     try:
         video = Serial.objects.get(slug=slug)
     except Serial.DoesNotExist:
@@ -158,6 +172,9 @@ def save_serial(request, slug):
 
 @api_view(['GET'],)
 def save_movie(request, slug):
+    if not request.user.is_authenticated:
+        return redirect('api:phone')
+
     try:
         video = Movie.objects.get(slug=slug)
     except Movie.DoesNotExist:

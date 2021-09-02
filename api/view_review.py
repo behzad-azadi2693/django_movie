@@ -4,6 +4,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from rest_framework.response import Response
 from movie.models import Movie, Review, Serial
 from rest_framework.decorators import api_view
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.pagination import PageNumberPagination
 from .serializer_review import (
@@ -36,6 +37,9 @@ def review_list(request):
 
 @api_view(['GET','POST'])
 def create_review_movie(request, pk):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         video = Movie.objects.get(pk=pk)
     except Movie.DoesNotExist:
@@ -58,6 +62,9 @@ def create_review_movie(request, pk):
 
 @api_view(['GET','POST'])
 def create_review_serial(request, pk):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         video = Serial.objects.get(pk=pk)
     except Movie.DoesNotExist:
@@ -128,6 +135,9 @@ def review_serial_detail(request, slug):
 
 @api_view(['GET','POST'])
 def edit_review(request, slug):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+        
     try:
         video = Review.objects.get(slug=slug)
     except Review.DoesNotExist:

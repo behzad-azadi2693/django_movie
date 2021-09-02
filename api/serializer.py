@@ -1,7 +1,7 @@
 from api.serializer_movie import MovieChoiceListSerializer
 from django.contrib.contenttypes import fields
 from accounts import models
-from movie.models import Category, ContactUs, NewsLetters, MessagesSending, Save
+from movie.models import Category, ContactUs, Movie, NewsLetters, MessagesSending, Save
 from rest_framework.serializers import ModelSerializer
 
 class NewsLettersSerializer(ModelSerializer):
@@ -32,3 +32,4 @@ class SaveSerializer(ModelSerializer):
     class Meta:
         model = Save
         fields = ('user','content_object')
+

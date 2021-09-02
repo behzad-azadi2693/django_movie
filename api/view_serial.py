@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from movie.models import Review, Serial, SerialFilms, SerialSession
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
-from rest_framework import status, views
+from rest_framework import status
+from django.shortcuts import redirect
 from django.urls import reverse
 from .serializer_serial import (
                         SerialFilmSerializer, SerialAllListSerializer, SerialChoceListSerializer,SerialSerializer,
@@ -97,6 +98,9 @@ def serial_all_list(request):
 
 @api_view(['GET','POST'])
 def create_serial(request):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+        
     if request.method == 'POST':
         form = SerialSerializer(data=request.data)
         if form.is_valid():
@@ -112,6 +116,9 @@ def create_serial(request):
 
 @api_view(['GET','PUT'])
 def edit_serial(request, slug):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         video = Serial.objects.get(slug=slug)
     except Serial.DoesNotExist:
@@ -132,6 +139,9 @@ def edit_serial(request, slug):
 
 @api_view(['GET','POST'])
 def create_session(request, slug):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         video = Serial.objects.get(slug=slug)
     except Serial.DoesNotExist:
@@ -153,6 +163,9 @@ def create_session(request, slug):
 
 @api_view(['GET','PUT'])
 def edit_session(request, pk):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         sesn = SerialSession.objects.get(pk=pk)
     except Serial.DoesNotExist:
@@ -172,6 +185,9 @@ def edit_session(request, pk):
 
 @api_view(['GET','POST'])
 def create_serial_film(request, pk, slug):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         sesn = SerialSession.objects.get(pk=pk)
         video = Serial.objects.get(slug=slug)
@@ -194,6 +210,9 @@ def create_serial_film(request, pk, slug):
 
 @api_view(['GET','PUT'])
 def edit_serial_film(request, pk):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     try:
         video = SerialFilms.objects.get(pk=pk)
     except SerialSession.DoesNotExist or Serial.DoesNotExist:

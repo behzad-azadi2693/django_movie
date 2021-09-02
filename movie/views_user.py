@@ -1,7 +1,7 @@
 
 from accounts.models import User
-from .models import Serial, Movie, Save
 from django.contrib.sessions.models import Session
+from .models import Serial, Movie, Save, SessionUser
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
@@ -67,8 +67,11 @@ def remove_session(request):
     if request.method == 'POST':
         key = request.POST.get('key')
         try:
-            session = Session.objects.get(session_key = key)
-            session.delete()
+            sessn = SessionUser.objects.get(user = request.user, session_key__session_key=key)
+            if sessn:
+                session = Session.objects.get(session_key = key)
+                session.delete()
+                return redirect('movie:user')
             return redirect('movie:user')
         except:
             return redirect('movie:user')

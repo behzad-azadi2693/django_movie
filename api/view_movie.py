@@ -1,5 +1,6 @@
 from os import stat
 from django.core.cache import cache
+from django.shortcuts import redirect
 from rest_framework.response import Response
 from movie.models import Movie
 from rest_framework.decorators import api_view
@@ -97,6 +98,9 @@ def movie_all_list(request):
 
 @api_view(['GET','POST'])
 def movie_create(request):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+
     if request.method == 'POST':
         form = MovieSerializer(data = request.data)
         if form.is_valid():
@@ -113,6 +117,9 @@ def movie_create(request):
 
 @api_view(["GET",'PUT'])
 def movie_edit(request, slug):
+    if not (request.user.is_authenticated and request.user.is_admin):
+        return redirect('api:index')
+        
     try:
         video = Movie.objects.get(slug=slug)
     except Movie.DoesNotExist:

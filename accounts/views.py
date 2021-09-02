@@ -1,17 +1,15 @@
-import random
 from . import otp_check
 from .models import User
 from random import randint
-from django.conf import settings
 from django.contrib import messages
-from datetime import date, datetime, tzinfo
+from datetime import date
 from movie.models import SessionUser
 from django.shortcuts import render, redirect
 from .forms import UserPhoneForm, PasswordSms
 from django.contrib.sessions.models import Session
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout
 from rest_framework.authtoken.models import Token
 
 def phone(request):
@@ -68,6 +66,7 @@ def sms(request):
     try:
         phone = request.session.get('phone_number')
         user = User.objects.get(phone_number = phone)
+        token = Token.objects.get_or_create(user=user)
 
         if request.method == 'POST':
             form = PasswordSms(request.POST)
@@ -84,7 +83,6 @@ def sms(request):
                     del request.session['phone_number']
                     messages.success(request , _("your successfull to login in site"), 'success')
                     login(request, user)
-                    token = Token.objects.get_or_create(user=user)
                     SessionUser.objects.get_or_create(
                                         user = user,
                                         session_key =Session.objects.get(session_key = request.session.session_key),
@@ -92,7 +90,6 @@ def sms(request):
                                         os = f'{request.user_agent.os.family}-{request.user_agent.os.version_string}',
                                         date_joiin = date.today(),
                                         ip_device =request.META['REMOTE_ADDR'] ,
-                                        token = token
                                     )
                     return redirect('movie:index')
                 if passwordraw != user.otp:
