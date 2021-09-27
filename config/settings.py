@@ -122,26 +122,26 @@ else:
     }
 
 DATABASE_ROUTERS = ['db_routers.routers.MovieDb','db_routers.routers.MessageDb']
-#if DEBUG:
-#    CACHES = {
-#    "default": {
-#        "BACKEND": "django_redis.cache.RedisCache",
-#        "LOCATION": "redis://127.0.0.1:6379/11",
-#        "OPTIONS": {
-#            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-#        },
-#        }
-#    }
-#else:
-#    CACHES = {
-#    "default": {
-#        "BACKEND": "django_redis.cache.RedisCache",
-#        "LOCATION": "redis://redis_container/1",
-#        "OPTIONS": {
-#            "CLIENT_CLASS": "django_redis.client.DefaultClient"
-#        },
-#        }
-#    }
+if DEBUG:
+    CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/11",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        }
+    }
+else:
+    CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis_container/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient"
+        },
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -207,7 +207,7 @@ LOGIN_URL = 'accounts:phone'
 AUTH_USER_MODEL='accounts.User'
 
 AUTHENTICATION_BACKEND = (
-    'movie.authentiacte.PhoneLoginBackend',
+    'accounts.authentiacte.PhoneLoginBackend',
 )
 
 
