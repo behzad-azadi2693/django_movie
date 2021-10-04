@@ -40,7 +40,10 @@ services:
         networks: 
             - main
         restart: on-failure
-
+        volumes:
+            - redisdata:/data
+            
+            
     app:
         container_name: app
         build: .
@@ -90,4 +93,6 @@ volumes:
     static:
     
     postgres_data:
-    
+     
+    redisdata:
+
