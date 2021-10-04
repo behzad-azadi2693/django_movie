@@ -138,6 +138,7 @@ else:
         "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "redis://redis_container/1",
         "OPTIONS": {
+            "PASWORD":"admin",
             "CLIENT_CLASS": "django_redis.client.DefaultClient"
         },
         }
