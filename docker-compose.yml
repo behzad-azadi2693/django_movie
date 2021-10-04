@@ -39,6 +39,7 @@ services:
             - "6379:6379"
         networks: 
             - main
+        restart: on-failure
 
     app:
         container_name: app
