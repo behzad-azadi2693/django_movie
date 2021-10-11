@@ -87,12 +87,16 @@ services:
 
 
 networks: 
-    main:
+    main:  
+        external: true
 
 volumes: 
     static:
+        external: true
     
     postgres_data:
+        external: true
      
     redisdata:
+        external: true
 
