@@ -208,7 +208,8 @@ LOGIN_URL = 'accounts:phone'
 AUTH_USER_MODEL='accounts.User'
 
 AUTHENTICATION_BACKEND = (
-    'accounts.authentiacte.PhoneLoginBackend',
+    'accounts.authentiacte.PhoneLoginBackend',    
+    'allauth.account.auth_backends.AuthenticationBackend',
 )
 
 
