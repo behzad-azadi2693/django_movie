@@ -37,10 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #local
-    'movie.apps.MovieConfig',
-    'accounts.apps.AccountsConfig',    
-    'api.apps.ApiConfig',    
+   
     #3rd
     'django_user_agents',
     'django.contrib.sitemaps',
