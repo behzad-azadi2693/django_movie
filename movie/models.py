@@ -20,8 +20,8 @@ class Category(models.Model):
         app_label = 'accounts'
 
 def path_save_movie(instance, filename):
-    name = os.path.join('movie',instance.name_en, filename)
-    return name
+    path_save = os.path.join('movie',instance.name_en, filename)
+    return path_save
 
 class Movie(models.Model):
     MOVIE_CHOICE = (
@@ -81,8 +81,8 @@ class Movie(models.Model):
 
 
 def path_save_serial(instance, filename):
-    name = os.path.join('serial', instance.name_en,  filename)
-    return name
+    path_save = os.path.join('serial', instance.name_en,  filename)
+    return path_save
 
 class Serial(models.Model):
     SERIAL_CHOICE = (
@@ -137,8 +137,8 @@ class Serial(models.Model):
 
 
 def path_save_session(instance, filename):
-    name = os.path.join('serial','session'+str(instance.session), instance.serial.name_en, filename)
-    return name
+    path_save = os.path.join('serial','session'+str(instance.session), instance.serial.name_en, filename)
+    return path_save
 
 class SerialSession(models.Model):
     session = models.PositiveIntegerField(verbose_name=_('serial session'))
@@ -166,8 +166,8 @@ class SerialSession(models.Model):
  
 
 def path_save_key_session(instance, filename):
-    name = os.path.join('serial', 'session'+str(instance.session.session),instance.serial.name_en, filename)
-    return name
+    path_save = os.path.join('serial', 'session'+str(instance.session.session),instance.serial.name_en, filename)
+    return path_save
 
 class SerialFilms(models.Model):
     episod = models.PositiveIntegerField(help_text='01', verbose_name=_("serial episod"))
@@ -198,8 +198,8 @@ class SerialFilms(models.Model):
 
 
 def path_save_review(instance, filename):
-    name = os.path.join('review',instance.name_en, filename)
-    return name
+    path_save = os.path.join('review',instance.name_en, filename)
+    return path_save
 
 class Review(models.Model):
     REVIEW_CHOICE = (
