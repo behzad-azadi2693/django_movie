@@ -1,3 +1,4 @@
+import os
 from django.db import models
 from django.urls import reverse
 from accounts.models import User
@@ -19,8 +20,8 @@ class Category(models.Model):
         app_label = 'accounts'
 
 def path_save_movie(instance, filename):
-    name = '/'.join(filter(None, (instance.name_en, filename)))
-    return 'movie/'+name
+    name = os.path.join('movie',instance.name_en, filename)
+    return name
 
 class Movie(models.Model):
     MOVIE_CHOICE = (
@@ -80,8 +81,8 @@ class Movie(models.Model):
 
 
 def path_save_serial(instance, filename):
-    name = '{0}/{1}'.format(instance.name_en,  filename)
-    return 'serial/'+name
+    name = os.path.join('serial', instance.name_en,  filename)
+    return name
 
 class Serial(models.Model):
     SERIAL_CHOICE = (
@@ -136,8 +137,8 @@ class Serial(models.Model):
 
 
 def path_save_session(instance, filename):
-    name = '{0}/session{1}/{2}'.format(instance.serial.name_en, instance.session, filename)
-    return 'serial/'+name
+    name = os.path.join('serial','session'+str(instance.session), instance.serial.name_en, filename)
+    return name
 
 class SerialSession(models.Model):
     session = models.PositiveIntegerField(verbose_name=_('serial session'))
@@ -165,8 +166,8 @@ class SerialSession(models.Model):
  
 
 def path_save_key_session(instance, filename):
-    name = '{0}/session{1}/{2}'.format(instance.serial.name_en, instance.session.session, filename)
-    return 'serial/'+name
+    name = os.path.join('serial', 'session'+str(instance.session.session),instance.serial.name_en, filename)
+    return name
 
 class SerialFilms(models.Model):
     episod = models.PositiveIntegerField(help_text='01', verbose_name=_("serial episod"))
@@ -197,8 +198,8 @@ class SerialFilms(models.Model):
 
 
 def path_save_review(instance, filename):
-    name = '/'.join(filter(None, (instance.name_en, filename)))
-    return 'review/'+name
+    name = os.path.join('review',instance.name_en, filename)
+    return name
 
 class Review(models.Model):
     REVIEW_CHOICE = (
