@@ -21,7 +21,6 @@ from django.conf import settings
 def change_language(request):
     if request.method == 'POST':
         lang = request.POST.get('language')
-        translation.activate(lang)
         path = request.POST.get('next')
         for language_cod, language_name in settings.LANGUAGES:
             if language_cod in path:
