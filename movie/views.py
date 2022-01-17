@@ -15,6 +15,7 @@ from .models import (
                     Movie, ContactUs, Serial, SerialFilms,
                     SerialSession, Review, 
                 )
+from django.conf import settings
 
 
 def change_language(request):
@@ -22,10 +23,12 @@ def change_language(request):
         lang = request.POST.get('language')
         translation.activate(lang)
         path = request.POST.get('next')
-        if path == 'change_language':
-            return redirect('movie:index')
-        else:    
-            return redirect(path)
+        for language_cod, language_name in settings.LANGUAGES:
+            if language_cod in path:
+                translation.activate(lang)
+                return redirect(path.replace(language_cod, lang))
+        
+        return redirect(path)
 
 
 def index(reauest):
