@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.utils.translation import gettext_lazy as _
 
 from django.core.checks.messages import Debug
 
@@ -169,8 +170,8 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
-    ('fa', 'persian'),
-    ('en', 'English'),
+    ('fa', _('فارسی')),
+    ('en', _('English')),
 )
 
 TIME_ZONE = 'UTC'
