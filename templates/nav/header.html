@@ -1,7 +1,8 @@
 {% load static %}
 {% load i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-
+{% get_available_languages as LANGUAGES %}
+{% load i18n_urls %}
 
 {% url 'movie:index' as index%}
 {% url 'movie:about' as about%}
@@ -31,22 +32,12 @@
                                 <h1 style="color: tomato;"> <a href="{% url 'movie:request' %}"> خرید اشتراک </a> </h1>
                             </div>
                         </div>
-                        {%endif%}                </small>
-                        <form action="{% url 'movie:change_language' %}" method="POST" style="direction: ltr;">
-                            {% csrf_token %}
-                            <input name="next" type="hidden" value="{{ request.get_full_path }}" />
-                            <select name="language">
-                                {% get_current_language as LANGUAGE_CODE %}
-                                {% get_available_languages as LANGUAGES %}
-                                {% get_language_info_list for LANGUAGES as languages %}
-                                {% for language in languages %}
-                                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
-                                        {{ language.name_local }} ({{ language.code }})
-                                    </option>
-                                {% endfor %}
-                            </select>
-                            <input type="submit" value="تغییر زبان" />
-                        </form>
+                        {%endif%}                
+                    </small>
+                        <a href=""><i class='ti-world icon'>{{ lang.name_translated }}</i></a> <hr>
+                            {% for language_code, language_name in LANGUAGES %}
+                            <a href="{% change_lang language_code %}" hreflang="{{ language_code }}">{{ language_name }}</a>
+                        {% endfor %}
   
             </div>
         <div class="main-navigation" style="float: right;">
