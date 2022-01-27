@@ -19,7 +19,6 @@ from .views import (
                     serial, serial_single, review, session,
                     contact, about, search, index,
                     collection, film, singel_review,
-                    change_language,
                 )
 
 
@@ -73,7 +72,6 @@ urlpatterns = [
     path('session/<str:slug>/',session , name='session'),
     path('remove_session/',remove_session, name = "remove_session"),
     path('sitemap/', sitemap, {'sitemaps':sitemaps}, name="sitemap"),
-    path('change_language/',change_language, name='change_language'),
     path('serial/singel/<str:slug>/', serial_single, name='serial_single'),
     path('serial_singlle/<str:slug>/', serial_single, name='serial_single'),
     path('singel/review/<str:slug>/', singel_review , name='singel_review'),
