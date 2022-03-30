@@ -133,7 +133,7 @@ def review_serial_detail(request, slug):
 
 
 
-@api_view(['GET','POST'])
+@api_view(['GET','PUT'])
 def edit_review(request, slug):
     if not (request.user.is_authenticated and request.user.is_admin):
         return redirect('api:index')
@@ -143,7 +143,7 @@ def edit_review(request, slug):
     except Review.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'POST':
+    if request.method == 'PUT':
         form = EditReviewSerializer(video, data=request.data)
         if form.is_valid():
             form.save()
