@@ -144,9 +144,9 @@ def profile(request):
 
 
 
-@api_view(['POST'],)
+@api_view(['DELETE'],)
 def delete_session(request):
-    if request.method == 'POST':
+    if request.method == 'DELETE':
         key = request.data('key')
         try:
             sessn = SessionUser.objects.get(user = request.user, session_key__session_key=key)
