@@ -29,7 +29,7 @@ services:
         ports: 
             - "5432:5432"
         volumes: 
-            - postgres_data:/var/lib/postgresql/data 
+            - ./data/postgres:/var/lib/postgresql/data 
 
     pgadmin:
         image: dpage/pgadmin4
@@ -40,7 +40,9 @@ services:
             - PGADMIN_DEFAULT_PASSWORD=a
         ports:
             - "5050:80"
-            
+        volumes: 
+            - ./data/pgadmin:/var/lib/pgadmin 
+ 
     redis:
         image: redis
         container_name: redis_container
@@ -104,7 +106,7 @@ volumes:
     static:
         external: true
     
-    postgres_data:
+    data:
         external: true
      
     redisdata:
