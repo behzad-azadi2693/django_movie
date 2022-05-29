@@ -18,6 +18,8 @@ dockrize
 
 nginx config auth and limit
 
+system caching with redis
+
 django-rest-framework
 ```
 ***
