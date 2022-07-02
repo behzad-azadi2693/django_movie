@@ -8,13 +8,13 @@ services:
         environment: 
             - POSTGRES_USER=admin
             - POSTGRES_PASSWORD=admin
-            - POSTGRES_MULTIPLE_DATABASES=movie_db,message_db
+            - POSTGRES_MULTIPLE_DATABASES=movie_db,admin,admin:message_db,admin,admin
         networks: 
             - main
         ports: 
             - "5432:5432"
         volumes: 
-            - ./create_database.sh:/docker-entrypoint-initdb.d/create_database.sql
+            - ./create_database.sh:/docker-entrypoint-initdb.d/create_database.sh
             - postgres_data:/var/lib/postgresql/data 
             
     pgbackups:
