@@ -119,7 +119,7 @@ else:
             'PASSWORD': 'admin',
             'USER': 'admin',
             'PORT': 5432,
-            'HOST': 'postgres2_container',
+            'HOST': 'postgres1_container',
         },
     }
 
